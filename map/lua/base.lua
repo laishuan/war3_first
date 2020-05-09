@@ -4,7 +4,7 @@ local console	= require 'jass.console'
 base = {}
 
 --判断是否是发布版本
-base.release = not pcall(require, 'lua.currentpath')
+base.release =  false --not pcall(require, 'lua.currentpath')
 
 --版本号
 base.version = '4.18'
@@ -37,14 +37,16 @@ end
 
 
 --测试版本和发布版本的脚本路径
-if base.release then
-	package.path = package.path .. [[;Poi\]] .. base.version .. [[\?.lua;scripts\?.lua]]
-end
+-- if base.release then
+-- 	package.path = package.path .. [[;Poi\]] .. base.version .. [[\?.lua;scripts\?.lua]]
+-- end
+package.path = package.path .. [[;Poi\]] .. base.version .. [[\?.lua;scripts\?.lua]]
 
 if not base.release then
 	--调试器端口
 	runtime.debugger = 4279
 end
 
+print("--start")
 --初始化本地脚本
 require 'main'

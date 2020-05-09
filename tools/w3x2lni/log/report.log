@@ -1,6 +1,6 @@
-输入路径：D:/code/war3/war3_map/war3_first
-输出路径：D:/code/war3/war3_map/war3_first/first_td.w3x
+输入路径：D:/workspace_war3/war3_first
+输出路径：D:/workspace_war3/war3_first/first_td.w3x
 输入格式：Lni
 输出模式：obj
 结果：0 个错误，0 条警告
-用时：1.193 秒
+用时：3.372 秒
