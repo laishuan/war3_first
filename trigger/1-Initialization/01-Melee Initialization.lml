@@ -1,0 +1,132 @@
+事件
+    MapInitializationEvent
+条件
+动作
+    SetVariable
+        变量: Money
+        常量: 3
+    SetVariable
+        变量: Extra_money
+        常量: 4
+    ForForce
+        函数: GetPlayersAll
+        动作: AdjustPlayerStateBJ
+            常量: 500
+            函数: GetEnumPlayer
+            预设: PlayerStateGold
+    SetVariable
+        变量: Negative_money
+        常量: -1
+    ForForce
+        函数: GetPlayersAll
+        动作: CreateFogModifierRectBJ
+            预设: EnabledDisabledEnabled
+            函数: GetEnumPlayer
+            预设: FogStateVisible
+            函数: GetPlayableMapRect
+    TriggerSleepAction
+        常量: 0.01
+    CreateTimerDialogBJ
+        变量: Timer
+        常量: 'Time until level 1'
+    StartTimerBJ
+        变量: Timer
+        预设: PeriodicOptionOneTime
+        常量: 30
+    SetVariable
+        变量: Timer
+        函数: GetLastCreatedTimerBJ
+    CreateLeaderboardBJ
+        函数: GetPlayersAll
+        常量: Points
+    LeaderboardAddItemBJ
+        预设: Player00
+        函数: GetLastCreatedLeaderboard
+        函数: GetPlayerName
+            预设: Player00
+        变量: Points_1
+    LeaderboardAddItemBJ
+        预设: Player01
+        函数: GetLastCreatedLeaderboard
+        函数: GetPlayerName
+            预设: Player01
+        变量: Points_2
+    LeaderboardAddItemBJ
+        预设: Player02
+        函数: GetLastCreatedLeaderboard
+        函数: GetPlayerName
+            预设: Player02
+        变量: Points_3
+    LeaderboardAddItemBJ
+        预设: Player03
+        函数: GetLastCreatedLeaderboard
+        函数: GetPlayerName
+            预设: Player03
+        变量: Points_4
+    LeaderboardAddItemBJ
+        预设: Player04
+        函数: GetLastCreatedLeaderboard
+        函数: GetPlayerName
+            预设: Player04
+        变量: Points_5
+    LeaderboardAddItemBJ
+        预设: Player08
+        函数: GetLastCreatedLeaderboard
+        函数: GetPlayerName
+            预设: Player08
+        变量: Points_6
+    SetVariable
+        变量: Lives
+        常量: 30
+    LeaderboardAddItemBJ
+        预设: Player07
+        函数: GetLastCreatedLeaderboard
+        常量: Lives
+        变量: Lives
+    CameraSetupApplyForPlayer
+        预设: CameraApply
+        变量: gg_cam_Camera_001
+        预设: Player00
+        常量: 0
+    CameraSetupApplyForPlayer
+        预设: CameraApply
+        变量: gg_cam_Camera_001
+        预设: Player01
+        常量: 0
+    CameraSetupApplyForPlayer
+        预设: CameraApply
+        变量: gg_cam_Camera_001
+        预设: Player02
+        常量: 0
+    CameraSetupApplyForPlayer
+        预设: CameraApply
+        变量: gg_cam_Camera_001
+        预设: Player03
+        常量: 0
+    CameraSetupApplyForPlayer
+        预设: CameraApply
+        变量: gg_cam_Camera_001
+        预设: Player04
+        常量: 0
+    CameraSetupApplyForPlayer
+        预设: CameraApply
+        变量: gg_cam_Camera_001
+        预设: Player08
+        常量: 0
+    CreateQuestBJ
+        预设: QuestTypeReqDiscovered
+        常量: 'Version Changes'
+        常量: 'Version Alpha1 - First Alpha Test'
+        常量: ReplaceableTextures\CommandButtons\BTNAmbush.blp
+    CreateQuestBJ
+        预设: QuestTypeOptDiscovered
+        常量: Hints
+        常量: 'Grey should get Scuba Steve (Big Daddy) as it is the most rounded race.
+
+Other races focus on one point, such as how Happy Gilmore is based off of range and Billy Madison is mainly sporatic attacks.'
+        常量: ReplaceableTextures\CommandButtons\BTNSlow.blp
+    CreateQuestBJ
+        预设: QuestTypeOptDiscovered
+        常量: 'Things to know:'
+        常量: 'Do not build in another player''s area as they will gain all gold from enemies killed by your towers.  Also don''t try hooking as it will not work.'
+        常量: ReplaceableTextures\CommandButtons\BTNSlow.blp

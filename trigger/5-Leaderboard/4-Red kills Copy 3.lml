@@ -1,0 +1,42 @@
+事件
+    TriggerRegisterAnyUnitEventBJ
+        预设: PlayerUnitEventDeath
+条件
+    AndMultiple
+        条件
+            OperatorCompareBoolean
+                函数: IsUnitEnemy
+                    函数: GetDyingUnit
+                    预设: Player00
+                预设: OperatorEqualENE
+                常量: true
+            OperatorCompareBoolean
+                函数: IsUnitEnemy
+                    函数: GetKillingUnitBJ
+                    预设: Player00
+                预设: OperatorEqualENE
+                常量: false
+            OperatorCompareBoolean
+                函数: RectContainsUnit
+                    变量: gg_rct_Gray_area
+                    函数: GetDyingUnit
+                预设: OperatorEqualENE
+                常量: true
+动作
+    SetVariable
+        变量: Points_6
+        函数: OperatorInt
+            变量: Points_6
+            预设: OperatorAdd
+            常量: 1
+    SetVariable
+        变量: Points_6
+        变量: Points_6
+    LeaderboardSetPlayerItemValueBJ
+        预设: Player08
+        函数: GetLastCreatedLeaderboard
+        变量: Points_6
+    LeaderboardSortItemsBJ
+        函数: GetLastCreatedLeaderboard
+        预设: LeaderboardSortByValue
+        预设: AscendingOptionDescending

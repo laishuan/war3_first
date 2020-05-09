@@ -1,0 +1,63 @@
+事件
+    TriggerRegisterPlayerUnitEventSimple
+        预设: Player00
+        预设: PlayerUnitEventTrain_Finish
+    TriggerRegisterPlayerUnitEventSimple
+        预设: Player01
+        预设: PlayerUnitEventTrain_Finish
+    TriggerRegisterPlayerUnitEventSimple
+        预设: Player02
+        预设: PlayerUnitEventTrain_Finish
+    TriggerRegisterPlayerUnitEventSimple
+        预设: Player03
+        预设: PlayerUnitEventTrain_Finish
+    TriggerRegisterPlayerUnitEventSimple
+        预设: Player04
+        预设: PlayerUnitEventTrain_Finish
+    TriggerRegisterPlayerUnitEventSimple
+        预设: Player05
+        预设: PlayerUnitEventTrain_Finish
+    TriggerRegisterPlayerUnitEventSimple
+        预设: Player06
+        预设: PlayerUnitEventTrain_Finish
+    TriggerRegisterPlayerUnitEventSimple
+        预设: Player07
+        预设: PlayerUnitEventTrain_Finish
+    TriggerRegisterPlayerUnitEventSimple
+        预设: Player08
+        预设: PlayerUnitEventTrain_Finish
+条件
+    OperatorCompareUnitCode
+        函数: GetUnitTypeId
+            函数: GetTrainedUnit
+        预设: OperatorEqualENE
+        常量: o00I
+动作
+    AddSpecialEffectLocBJ
+        函数: GetUnitLoc
+            函数: GetTriggerUnit
+        常量: Abilities\Spells\Human\Flare\FlareCaster.mdl
+    RemoveUnit
+        函数: GetTriggerUnit
+    RemoveUnit
+        函数: GetTrainedUnit
+    AdjustPlayerStateBJ
+        函数: GetUnitPointValue
+            函数: GetTriggerUnit
+        函数: GetOwningPlayer
+            函数: GetTrainedUnit
+        预设: PlayerStateGold
+    DisplayTextToForce
+        函数: GetForceOfPlayer
+            函数: GetOwningPlayer
+                函数: GetTrainedUnit
+        函数: OperatorString
+            函数: OperatorString
+                常量: '|cff0042ffYou recieved |r'
+                函数: I2S
+                    函数: GetUnitPointValue
+                        函数: GetTriggerUnit
+            函数: OperatorString
+                常量: '|cff0042ff gold for selling a |r'
+                函数: GetUnitName
+                    函数: GetTriggerUnit

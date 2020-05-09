@@ -1,0 +1,213 @@
+事件
+    TriggerRegisterTimerExpireEventBJ
+        变量: Timer_25
+条件
+动作
+    DisplayTextToForce
+        函数: GetPlayersAll
+        常量: '|cff3300ff Level 25|r |cff406622Harrison Ford|r'
+    IfThenElseMultiple
+        条件
+            OperatorComparePlayerSlotStatus
+                函数: GetPlayerSlotState
+                    预设: Player00
+                预设: OperatorEqualENE
+                预设: PlayerSlotStatePlaying
+        动作
+            CreateNUnitsAtLoc
+                常量: 40
+                常量: h009
+                预设: Player06
+                函数: GetRectCenter
+                    变量: gg_rct_Red_Spawn
+                预设: RealUnitFacing
+        动作
+            DoNothing
+    IfThenElseMultiple
+        条件
+            OperatorComparePlayerSlotStatus
+                函数: GetPlayerSlotState
+                    预设: Player02
+                预设: OperatorEqualENE
+                预设: PlayerSlotStatePlaying
+        动作
+            CreateNUnitsAtLoc
+                常量: 40
+                常量: h009
+                预设: Player06
+                函数: GetRectCenter
+                    变量: gg_rct_Teal_Spawn
+                预设: RealUnitFacing
+        动作
+            DoNothing
+    IfThenElseMultiple
+        条件
+            OperatorComparePlayerSlotStatus
+                函数: GetPlayerSlotState
+                    预设: Player01
+                预设: OperatorEqualENE
+                预设: PlayerSlotStatePlaying
+        动作
+            CreateNUnitsAtLoc
+                常量: 20
+                常量: h009
+                预设: Player06
+                函数: GetRectCenter
+                    变量: gg_rct_Blue_Spawn
+                预设: RealUnitFacing
+            CreateNUnitsAtLoc
+                常量: 20
+                常量: h009
+                预设: Player06
+                函数: GetRectCenter
+                    变量: gg_rct_Blue_Spawn_2
+                预设: RealUnitFacing
+        动作
+            DoNothing
+    IfThenElseMultiple
+        条件
+            OperatorComparePlayerSlotStatus
+                函数: GetPlayerSlotState
+                    预设: Player03
+                预设: OperatorEqualENE
+                预设: PlayerSlotStatePlaying
+        动作
+            CreateNUnitsAtLoc
+                常量: 20
+                常量: h009
+                预设: Player06
+                函数: GetRectCenter
+                    变量: gg_rct_Purple_Spawn
+                预设: RealUnitFacing
+        动作
+            DoNothing
+    IfThenElseMultiple
+        条件
+            OperatorComparePlayerSlotStatus
+                函数: GetPlayerSlotState
+                    预设: Player04
+                预设: OperatorEqualENE
+                预设: PlayerSlotStatePlaying
+        动作
+            CreateNUnitsAtLoc
+                常量: 20
+                常量: h009
+                预设: Player06
+                函数: GetRectCenter
+                    变量: gg_rct_Yellow_Spawn
+                预设: RealUnitFacing
+        动作
+            DoNothing
+    TimerDialogDisplayBJ
+        预设: ShowHideHide
+        函数: GetLastCreatedTimerDialogBJ
+    DestroyTimerDialogBJ
+        函数: GetLastCreatedTimerDialogBJ
+    ForGroup
+        函数: GetUnitsOfPlayerAll
+            预设: Player06
+        动作: SetUnitAcquireRangeBJ
+            函数: GetEnumUnit
+            常量: 0.00
+    CreateTimerDialogBJ
+        变量: Timer_26
+        常量: 'Time to level 26'
+    TimerDialogDisplayBJ
+        预设: ShowHideShow
+        函数: GetLastCreatedTimerDialogBJ
+    ForGroup
+        函数: GetUnitsInRectOfPlayer
+            变量: gg_rct_Red_Spawn
+            预设: Player06
+        动作: IssuePointOrderLoc
+            函数: GetEnumUnit
+            预设: UnitOrderMove
+            函数: GetRectCenter
+                变量: gg_rct_air_path_red
+    ForGroup
+        函数: GetUnitsInRectOfPlayer
+            变量: gg_rct_Blue_Spawn
+            预设: Player06
+        动作: IssuePointOrderLoc
+            函数: GetEnumUnit
+            预设: UnitOrderMove
+            函数: GetRectCenter
+                变量: gg_rct_air_path_red_and_blue
+    ForGroup
+        函数: GetUnitsInRectOfPlayer
+            变量: gg_rct_Blue_Spawn_2
+            预设: Player06
+        动作: IssuePointOrderLoc
+            函数: GetEnumUnit
+            预设: UnitOrderMove
+            函数: GetRectCenter
+                变量: gg_rct_air_path_red_and_teal
+    ForGroup
+        函数: GetUnitsInRectOfPlayer
+            变量: gg_rct_Teal_Spawn
+            预设: Player06
+        动作: IssuePointOrderLoc
+            函数: GetEnumUnit
+            预设: UnitOrderMove
+            函数: GetRectCenter
+                变量: gg_rct_air_path_teal
+    ForGroup
+        函数: GetUnitsInRectOfPlayer
+            变量: gg_rct_Purple_Spawn
+            预设: Player06
+        动作: IssuePointOrderLoc
+            函数: GetEnumUnit
+            预设: UnitOrderMove
+            函数: GetRectCenter
+                变量: gg_rct_air_path_purple_2
+    ForGroup
+        函数: GetUnitsInRectOfPlayer
+            变量: gg_rct_Yellow_Spawn
+            预设: Player06
+        动作: IssuePointOrderLoc
+            函数: GetEnumUnit
+            预设: UnitOrderMove
+            函数: GetRectCenter
+                变量: gg_rct_air_path_yellow_2
+    StartTimerBJ
+        变量: Timer_26
+        预设: PeriodicOptionOneTime
+        常量: 60.00
+    SetVariable
+        变量: Money
+        函数: OperatorInt
+            变量: Money
+            预设: OperatorAdd
+            常量: 1
+    SetVariable
+        变量: Negative_money
+        函数: OperatorInt
+            变量: Negative_money
+            预设: OperatorSubtract
+            常量: 1
+    DisplayTextToForce
+        函数: GetPlayersAll
+        常量: 'Bounty has increased.'
+    SetVariable
+        变量: Extra_money
+        函数: OperatorInt
+            变量: Extra_money
+            预设: OperatorAdd
+            常量: 6
+    SetVariable
+        变量: Extra_money
+        变量: Extra_money
+    DisplayTextToForce
+        函数: GetPlayersAll
+        函数: OperatorString
+            常量: 'You have been given '
+            函数: OperatorString
+                函数: I2S
+                    变量: Extra_money
+                常量: ' gold this round.'
+    ForForce
+        函数: GetPlayersAll
+        动作: AdjustPlayerStateBJ
+            变量: Extra_money
+            函数: GetEnumPlayer
+            预设: PlayerStateGold

@@ -1,0 +1,26 @@
+事件
+    TriggerRegisterUnitEvent
+        变量: gg_unit_h000_0004
+        预设: UnitEventTrainFinish
+条件
+动作
+    IfThenElseMultiple
+        条件
+            OperatorCompareBoolean
+                函数: IsUnitType
+                    函数: GetLastCreatedUnit
+                    预设: UnitTypeGround
+                预设: OperatorEqualENE
+                常量: false
+        动作
+            SetUnitPositionLoc
+                函数: GetTrainedUnit
+                函数: GetRectCenter
+                    变量: gg_rct_Teal_area
+            PanCameraToTimedLocForPlayer
+                预设: Player02
+                函数: GetRectCenter
+                    变量: gg_rct_Teal_area
+                常量: 0
+        动作
+            DoNothing

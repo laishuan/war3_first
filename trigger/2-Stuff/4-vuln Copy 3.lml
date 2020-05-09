@@ -1,0 +1,15 @@
+事件
+    TriggerRegisterLeaveRectSimple
+        变量: gg_rct_Teal_Spawn
+条件
+    OperatorCompareBoolean
+        函数: IsUnitInGroup
+            函数: GetLeavingUnit
+            函数: GetUnitsOfPlayerAll
+                预设: Player06
+        预设: OperatorEqualENE
+        常量: true
+动作
+    SetUnitInvulnerable
+        函数: GetEnteringUnit
+        预设: InvulnerabilityVulnerable

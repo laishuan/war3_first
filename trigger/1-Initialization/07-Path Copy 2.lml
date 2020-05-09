@@ -1,0 +1,21 @@
+事件
+    TriggerRegisterEnterRectSimple
+        变量: gg_rct_air_path_red_and_teal
+条件
+动作
+    IfThenElseMultiple
+        条件
+            OperatorCompareBoolean
+                函数: IsUnitAlly
+                    函数: GetEnteringUnit
+                    预设: Player00
+                预设: OperatorEqualENE
+                常量: false
+        动作
+            IssuePointOrderLoc
+                函数: GetEnteringUnit
+                预设: UnitOrderMove
+                函数: GetRectCenter
+                    变量: gg_rct_air_path_yellow_1
+        动作
+            DoNothing

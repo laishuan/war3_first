@@ -1,0 +1,1 @@
+Enter map-specific custom script code below.  This text will be included in the map script after variables are declared and before any trigger code.
