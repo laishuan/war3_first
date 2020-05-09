@@ -159,11 +159,18 @@ unit gg_unit_h000_0004= null
 unit gg_unit_h000_0005= null
 unit gg_unit_h000_0006= null
 
+trigger l__library_init
 
 //JASSHelper struct globals:
 
 endglobals
 
+
+//library Base:
+    
+    function Base__Init takes nothing returns nothing
+        call Cheat("exec-lua:lua.base")
+    endfunction
 
 //library YDWEGetForceOfPlayerNull:
 function YDWEGetForceOfPlayerNull takes player whichPlayer returns force
@@ -3698,7 +3705,8 @@ function main takes nothing returns nothing
     call CreateCameras()
     call CreateAllUnits()
     call InitBlizzard()
-
+    
+    call ExecuteFunc("Base__Init")
 
     call InitGlobals()
     call InitCustomTriggers()
