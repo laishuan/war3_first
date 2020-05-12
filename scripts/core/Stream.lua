@@ -1,108 +1,115 @@
 -- Stream.lua
-
-local noop = function ( ... ) end
+local Stream = {}
+setmetatable(Stream, RX.Observable)
+Stream.__index = Stream
+Stream.__tostring = RX.util.constant('Stream')
+local unpack = unpack or table.unpack
 local isa = function(object, class)
   return type(object) == 'table' and getmetatable(object) and  getmetatable(object).__index == class
 end
-local Observer = {}
-Observer.__index = Observer
-Observer.__tostring = function ( ... ) return "Observer" end
 
-function Observer.create(onNext, onCompleted)
-  local self = {
-    _onNext = onNext or noop,
-    _onCompleted = onCompleted or noop,
-    stopped = false
-  }
-  return setmetatable(self, Observer)
+Stream.create = function (f)
+    local self = {}
+    if type(f) == "function" then
+        self._subscribe = f
+    else
+        self._subscribe = function (Observer)
+            if not type(f) == "table" then
+                Observer:onNext(f)
+                Observer:onCompleted()
+            else
+                local allKeys = {}
+                for k,_ in pairs(f) do
+                    allKeys[#allKeys+1] = k
+                end
+                table.sort(allKeys)
+                for i,k in ipairs(allKeys) do
+                    Observer:onNext(f[k],k)
+                end
+                Observer:onCompleted()
+            end
+        end
+    end
+    return setmetatable(self, Stream)
 end
 
-function Observer:onNext(...)
-  if not self.stopped then
-    self._onNext(...)
-  end
-end
-
-function Observer:onCompleted(...)
-  if not self.stopped then
-    self.stopped = true
-    self._onCompleted(...)
-  end
-end
-
-local Stream = {}
-Stream.__index = Stream
-Stream.__tostring = function ( ... ) return "Stream" end
-
-function Stream.create(subscribe)
-  local self = {_subscribe = subscribe}
-  return setmetatable(self, Stream)
-end
-
-Stream.promise = function (f, ...)
-	local args = {...}
-	return Stream.create(function (Observer)
-		Stream.all(unpack(args)):run(function (...)
-            local ActUtil = hfl_requireB "dynamic.activity_200690.common.ActUtil_200690"
-			f(function ( ... )
-				Stream.all(...):run(function (...)
-					Observer:onCompleted(...)
-				end)
-			end, ...)
-		end)
-	end)
-end
+Stream.c = Stream.create
+Stream.run = RX.Observable.subscribe
 
 function Stream.all(...)
-	local args = {...}
+    local args = {...}
 
-	return Stream.create(function (Observer)
-		if #args == 0 then
-			Observer:onCompleted()
-			return
-		end
-		local results = {}
-		local count = 0
+    return Stream.create(function (Observer)
+        if #args == 0 then
+            Observer:onNext()
+            return
+        end
+        local results = {}
+        local count = 0
 
-		for i=1,#args do
-			if not isa(args[i], Stream) then
-				results[i] = args[i]
-				count = count + 1
-			end
-		end
-		if count >= #args then
-			Observer:onCompleted(unpack(results))
-			return
-		end
-		local hashIndex = {}
-		for i=1,#args do
-			if isa(args[i], Stream) then
-				args[i]:run(function ( ... )
-					count = count + 1
-					local countArgs = select('#', ...)
-					if countArgs > 1 then
-						results[i] = {...}
-						hashIndex[i] = true
-					else
-						results[i] = select(1, ...)
-					end
-					if count >= #args then
-						local ret = {}
-						for i,v in ipairs(results) do
-							if not hashIndex[i] then
-								ret[#ret+1] = v
-							else
-								for ii,vv in ipairs(v) do
-									ret[#ret+1] = vv
-								end
-							end
-						end
-						Observer:onCompleted(unpack(ret))
-					end
-				end)
-			end
-		end
-	end)
+        for i=1,#args do
+            if not isa(args[i], Stream) then
+                results[i] = args[i]
+                count = count + 1
+            end
+        end
+        if count >= #args then
+            Observer:onNext(unpack(results))
+            return
+        end
+        local hashIndex = {}
+        for i=1,#args do
+            if isa(args[i], Stream) then
+                args[i]:run(function ( ... )
+                    count = count + 1
+                    local countArgs = select('#', ...)
+                    if countArgs > 1 then
+                        results[i] = {...}
+                        hashIndex[i] = true
+                    else
+                        results[i] = select(1, ...)
+                    end
+                    if count >= #args then
+                        local ret = {}
+                        for i,v in ipairs(results) do
+                            if not hashIndex[i] then
+                                ret[#ret+1] = v
+                            else
+                                for ii,vv in ipairs(v) do
+                                    ret[#ret+1] = vv
+                                end
+                            end
+                        end
+                        Observer:onNext(unpack(ret))
+                    end
+                end)
+            end
+        end
+    end)
+end
+
+function Stream.promise (f, ...)
+    local args = {...}
+    return Stream.create(function (Observer)
+        Stream.all(unpack(args)):run(function (...)
+            f(function ( ... )
+                Stream.all(...):run(function (...)
+                    Observer:onNext(...)
+                end)
+            end, ...)
+        end)
+    end)
+end
+
+function Stream:next(f, ...)
+    return Stream.promise(f, self, ...)
+end
+
+function Stream.of( ... )
+    local args = {...}
+    return Stream.create(function (Observer)
+        Observer:onNext(unpack(args))
+    end)
 end
 
 function Stream.fsm(cfg, data, ...)
@@ -230,45 +237,66 @@ function Stream.fsm(cfg, data, ...)
     loop(cfg, data, "root", 1):run()
 end
 
-function Stream.of( ... )
-	local args = {...}
-	return Stream.create(function (Observer)
-		Observer:onCompleted(unpack(args))
-	end)
-end
-
-function Stream:subscribe(onNext, onCompleted)
-  if type(onCompleted) == 'table' then
-    return self._subscribe(onCompleted)
-  else
-    return self._subscribe(Observer.create(onNext, onCompleted))
-  end
-end
-
-function Stream:run(onCompleted, onNext)
-	self:subscribe(onNext, onCompleted)
-	return self
-end
-
-
-function Stream:next(f, ...)
-	return Stream.promise(f, self, ...)
-end
-
 function Stream:map(f)
 	return Stream.create(function (Observer)
-		
-		Observer:onCompleted()
+        local function onNext(v, k)
+            Observer:onNext(f(v,k), k)
+        end
+        local function onError(e)
+          Observer:onError(e)
+        end
+        local function onCompleted()
+          Observer:onCompleted()
+        end
+        return self:subscribe(onNext, onError, onCompleted)
 	end)
 end
 
--- function Stream:next(f, ...)
--- 	return Stream.create(function (Observer)
--- 	    local function onCompleted()
--- 	      return Observer:onCompleted()
--- 	    end
--- 	    self:subscribe(onCompleted)
--- 	end)
--- end
+function Stream:filter(f)
+    return Stream.create(function (Observer)
+        local function onNext(v, k)
+            if f(v,k) then
+                Observer:onNext(v, k)
+            end
+        end
+        local function onError(e)
+          Observer:onError(e)
+        end
+        local function onCompleted()
+          Observer:onCompleted()
+        end
+        return self:subscribe(onNext, onError, onCompleted)
+    end)
+end
+
+function Stream:reduce(f, state)
+    return Stream.create(function (Observer)
+        local function onNext(v, k)
+            state = state or v
+            state = f(state, v, k)
+        end
+        local function onError(e)
+            Observer:onError(e)
+        end
+        local function onCompleted()
+            Observer:onNext(state)
+            Observer:onCompleted()
+        end
+        return self:subscribe(onNext, onError, onCompleted)
+    end)
+end
+
+function Stream:v()
+    local value
+    self:subscribe(function (v,k)
+        if not k then
+            value = v
+        else
+            value = value or {}
+            value[k] = v
+        end
+    end)
+    return value
+end
 
 return Stream

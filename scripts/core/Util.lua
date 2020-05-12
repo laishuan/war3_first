@@ -2,8 +2,7 @@
 local space = "    "
 local limitLen = 0
 local getStrArr, diff
-local Moses = require 'lib.moses'
-local getStrArr = function (t, prefix, sort)
+getStrArr = function (t, prefix, sort)
     if prefix == nil then prefix = '' end
     local ret = {}
     if type(t) == "table" and not getmetatable(t) then
@@ -92,11 +91,11 @@ local getStrArr = function (t, prefix, sort)
     return newRet
 end
 
-local prefixAdd = "++++++: "
-local prefixSub = "------: "
-local prefixChg = 'cccccc: '
+local prefixAdd = "增加字段---->: "
+local prefixSub = "减少字段---->: "
+local prefixChg = '数值变化---->: '
 
-local diff = function (t1, t2)
+diff = function (t1, t2)
     local ret = {}
     if type(t1) ~= "table" or type(t2) ~= 'table' then
         return ret
@@ -132,7 +131,7 @@ local diff = function (t1, t2)
 end
 
 dump = function (t, limit, prefix, sort)
-    limitLen = limit or 60
+    limitLen = limit or 0
     prefix = prefix or ""
     local arr = getStrArr(t, nil, sort)
     if #arr == 1 then
@@ -141,15 +140,21 @@ dump = function (t, limit, prefix, sort)
     print(prefix .. table.concat(arr, "\n"))
 end
 
-dumpDiff = function (t1, t2)
+dumpDiff = function (t1, t2, limit)
     local match = string.match
     local t = diff(t1,t2)
     if not t or not next(t) then return end
-    dump(t, 60, "dumpDiff-->", function (a, b)
+    dump(t, limit, "dumpDiff-->", function (a, b)
         a = match(a, prefixAdd .. "([%w_]+)") or match(a, prefixSub .. "([%w_]+)") or match(a, prefixChg .. "([%w_]+)") or a
         b = match(b, prefixAdd .. "([%w_]+)") or match(b, prefixSub .. "([%w_]+)") or match(b, prefixChg .. "([%w_]+)") or b
         return a < b
     end)
+end
+
+local std_print = print
+
+function print(...)
+    std_print(('[%.3f]'):format(os.clock()), ...)
 end
 
 class = function (super)

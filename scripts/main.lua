@@ -1,11 +1,7 @@
-local std_print = print
-
-function print(...)
-	std_print(('[%.3f]'):format(os.clock()), ...)
-end
-
+require 'core.init'
+-- require 'core.exportunit'
+require 'core.test'
 local function main()
-	
 end
 
 main()
