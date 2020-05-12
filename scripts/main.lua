@@ -9,6 +9,3 @@ local function main()
 end
 
 main()
-
-print("a","b","c")
-base.error_handle(123);
