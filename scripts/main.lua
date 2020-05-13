@@ -1,6 +1,7 @@
 require 'core.init'
 -- require 'core.exportunit'
-require 'core.test'
+require 'test'
+
 local function main()
 end
 

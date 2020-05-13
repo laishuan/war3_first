@@ -1,42 +1,35 @@
 -- Stream.lua
 local Stream = {}
-setmetatable(Stream, RX.Observable)
-Stream.__index = Stream
-Stream.__tostring = RX.util.constant('Stream')
-local unpack = unpack or table.unpack
+
 local isa = function(object, class)
   return type(object) == 'table' and getmetatable(object) and  getmetatable(object).__index == class
 end
 
-Stream.create = function (f)
-    local self = {}
-    if type(f) == "function" then
-        self._subscribe = f
-    else
-        self._subscribe = function (Observer)
-            if not type(f) == "table" then
-                Observer:onNext(f)
-                Observer:onCompleted()
-            else
-                local allKeys = {}
-                for k,_ in pairs(f) do
-                    allKeys[#allKeys+1] = k
+setmetatable(Stream, {__index = function (t,k)
+    local v = rawget(Stream, k)
+    if not v then
+        v = RX.Observable[k]
+        if type(v) == "function" then
+            return function ( ... )
+                local newV = v(...)
+                if isa(newV, RX.Observable) then
+                    setmetatable(newV, Stream)
                 end
-                table.sort(allKeys)
-                for i,k in ipairs(allKeys) do
-                    Observer:onNext(f[k],k)
-                end
-                Observer:onCompleted()
+                return newV
             end
         end
     end
-    return setmetatable(self, Stream)
-end
+    return v
+end})
 
-Stream.c = Stream.create
+Stream.__index = Stream
+Stream.__tostring = RX.util.constant('Stream')
+local unpack = unpack or table.unpack
+
+Stream.t = Stream.fromTable
 Stream.run = RX.Observable.subscribe
 
-function Stream.all(...)
+function Stream.allpromise(...)
     local args = {...}
 
     return Stream.create(function (Observer)
@@ -91,9 +84,9 @@ end
 function Stream.promise (f, ...)
     local args = {...}
     return Stream.create(function (Observer)
-        Stream.all(unpack(args)):run(function (...)
+        Stream.allpromise(unpack(args)):run(function (...)
             f(function ( ... )
-                Stream.all(...):run(function (...)
+                Stream.allpromise(...):run(function (...)
                     Observer:onNext(...)
                 end)
             end, ...)
@@ -105,12 +98,6 @@ function Stream:next(f, ...)
     return Stream.promise(f, self, ...)
 end
 
-function Stream.of( ... )
-    local args = {...}
-    return Stream.create(function (Observer)
-        Observer:onNext(unpack(args))
-    end)
-end
 
 function Stream.fsm(cfg, data, ...)
     local loop, arrNextPathTemp
@@ -189,7 +176,7 @@ function Stream.fsm(cfg, data, ...)
                         end, data, newJumpto)
                     end)
                 end
-                base = #arr > 0 and Stream.all(unpack(arr)) or Stream.of(data, jumpto, cfg)
+                base = #arr > 0 and Stream.allpromise(unpack(arr)) or Stream.of(data, jumpto, cfg)
             elseif type(cfg) == "function" then
                 base = Stream.promise(cfg, data, jumpto)
             else
@@ -224,7 +211,7 @@ function Stream.fsm(cfg, data, ...)
                     arrCurPath[#arrCurPath] = nil
                 end
 
-                if state == "root" then
+                if state == "root" and arrNextPath and arrNextPath[1] ~= "_quit" then
                     resolve(loop(cfg, result, state, deep))
                 else
                     resolve(result)
@@ -237,66 +224,24 @@ function Stream.fsm(cfg, data, ...)
     loop(cfg, data, "root", 1):run()
 end
 
-function Stream:map(f)
-	return Stream.create(function (Observer)
-        local function onNext(v, k)
-            Observer:onNext(f(v,k), k)
-        end
-        local function onError(e)
-          Observer:onError(e)
-        end
-        local function onCompleted()
-          Observer:onCompleted()
-        end
-        return self:subscribe(onNext, onError, onCompleted)
-	end)
-end
-
-function Stream:filter(f)
-    return Stream.create(function (Observer)
-        local function onNext(v, k)
-            if f(v,k) then
-                Observer:onNext(v, k)
-            end
-        end
-        local function onError(e)
-          Observer:onError(e)
-        end
-        local function onCompleted()
-          Observer:onCompleted()
-        end
-        return self:subscribe(onNext, onError, onCompleted)
-    end)
-end
-
-function Stream:reduce(f, state)
-    return Stream.create(function (Observer)
-        local function onNext(v, k)
-            state = state or v
-            state = f(state, v, k)
-        end
-        local function onError(e)
-            Observer:onError(e)
-        end
-        local function onCompleted()
-            Observer:onNext(state)
-            Observer:onCompleted()
-        end
-        return self:subscribe(onNext, onError, onCompleted)
-    end)
-end
-
 function Stream:v()
-    local value
+    local value = {}
+    local count = 0
+    local allNoKey = true
     self:subscribe(function (v,k)
         if not k then
-            value = v
+            value[#value+1] = v
         else
-            value = value or {}
+            allNoKey = false
             value[k] = v
         end
     end)
-    return value
+    if count == 1 and allNoKey then
+        return value[1]
+    else
+        return value
+    end
+    return (count==1 and allNoKey) and value[1] or value
 end
 
 return Stream

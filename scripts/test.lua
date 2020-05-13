@@ -25,16 +25,17 @@ local B = {
 	}
 }
 
-dump(A, 0)
-
-
+-- 普通dump
+dump(A)
+-- 普通dump 多行合并
+dump(A, 60)
+-- table diff 检查
 dumpDiff(A, B)
 
 
-
+-- 数据处理测试
 local arr = {1,2,3}
-
-dump(Stream.c(arr):map(function (v)
+dump(Stream.t(arr):map(function (v)
 	return v + 1
 end):filter(function (v)
 	return v % 2 == 0
@@ -42,7 +43,13 @@ end):reduce(function (state, v)
 	return state + v
 end, 0):v())
 
+dump(Stream.fromRange(1,100):map(function (v)
+	return v + 1
+end):filter(function (v)
+	return v % 2 == 0
+end):v())
 
+-- promise 测试
 Stream.promise(function (resove)
 	print("asdfasdf")
 	resove(123)
@@ -58,8 +65,9 @@ end):next(function (resove, result)
 end):next(function (resove, result)
 	print(result)
 	resove(456)
-end):subscribe()
+end):run()
 
+--基于promise的状态机测试
 Stream.fsm({
 	main = function (resove, data, jumpto)
 		print("main:" .. data )
@@ -84,7 +92,7 @@ Stream.fsm({
 	over = function (resove, data, jumpto)
 		print("over:" .. data )
 		data = "from over"
-		jumpto("exit")
+		jumpto("_quit")
 		resove(data)
 	end,
 }, "start", "main")
