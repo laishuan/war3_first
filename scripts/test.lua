@@ -33,7 +33,7 @@ dump(A, 60)
 dumpDiff(A, B)
 
 
--- 数据处理测试
+-- -- 数据处理测试
 local arr = {1,2,3}
 dump(Stream.t(arr):map(function (v)
 	return v + 1
@@ -41,7 +41,7 @@ end):filter(function (v)
 	return v % 2 == 0
 end):reduce(function (state, v)
 	return state + v
-end, 0):v())
+end):v())
 
 dump(Stream.fromRange(1,100):map(function (v)
 	return v + 1
@@ -50,7 +50,7 @@ end):filter(function (v)
 end):v())
 
 -- promise 测试
-Stream.promise(function (resove)
+Promise.new(function (resove)
 	print("asdfasdf")
 	resove(123)
 end):next(function (resove, result)
@@ -68,7 +68,7 @@ end):next(function (resove, result)
 end):run()
 
 --基于promise的状态机测试
-Stream.fsm({
+Promise.fsm({
 	main = function (resove, data, jumpto)
 		print("main:" .. data )
 		data = "from main"
