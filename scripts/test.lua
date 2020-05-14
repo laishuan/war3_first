@@ -109,3 +109,6 @@ Stream.of({a=1,b=2,c={3,4,5,a=1}}):flatMap(function (t)
 end):dump("flatmap", function (v, k)
 	return "k:" .. tostring(k) .. " v:" .. tostring(v)
 end)
+
+
+print(table.concat({1,2,3}, ","))
