@@ -1,6 +1,6 @@
 require 'core.init'
--- require 'core.exportunit'
-require 'test'
+require 'core.ObjectExport'
+-- require 'test'
 
 local function main()
 end

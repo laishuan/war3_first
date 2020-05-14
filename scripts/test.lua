@@ -53,19 +53,24 @@ end):v())
 Promise.new(function (resove)
 	print("asdfasdf")
 	resove(123)
-end):next(function (resove, result)
+end)
+:next(function (resove, result)
 	print(result)
 	resove(456)
-end):next(function (resove, result)
+end)
+:next(function (resove, result)
 	print(result)
 	resove(789)
-end):next(function (resove, result)
+end)
+:next(function (resove, result)
 	print(result)
 	resove(101112)
-end):next(function (resove, result)
+end)
+:next(function (resove, result)
 	print(result)
 	resove(456)
-end):run()
+end)
+:run()
 
 --基于promise的状态机测试
 Promise.fsm({
@@ -96,3 +101,11 @@ Promise.fsm({
 		resove(data)
 	end,
 }, "start", "main")
+
+
+--rx 功能测试
+Stream.of({a=1,b=2,c={3,4,5,a=1}}):flatMap(function (t)
+	return Stream.fromTable(t, nil, true)
+end):dump("flatmap", function (v, k)
+	return "k:" .. tostring(k) .. " v:" .. tostring(v)
+end)

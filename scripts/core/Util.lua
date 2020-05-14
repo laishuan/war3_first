@@ -1,8 +1,7 @@
 -- Util.lua
 local space = "    "
 local limitLen = 0
-local getStrArr, diff
-getStrArr = function (t, prefix, sort)
+table2str = function (t, prefix, sort)
     if prefix == nil then prefix = '' end
     local ret = {}
     if type(t) == "table" and not getmetatable(t) then
@@ -20,7 +19,7 @@ getStrArr = function (t, prefix, sort)
                 -- if type(v) == "string" then v = '"' .. v .. '"' end
                 ret[#ret+1] = prefix .. space .. tostring(k) .. "=" .. tostring(v)
             else
-                local arr = getStrArr(v, prefix .. space, sort)
+                local arr = table2str(v, prefix .. space, sort)
                 arr[1] = prefix .. space .. tostring(k) .. "=" .. string.gsub(arr[1], space, "")
                 if #arr < 2 then
                     ret[#ret+1]= arr[1]
@@ -133,7 +132,7 @@ end
 dump = function (t, limit, prefix, sort)
     limitLen = limit or 0
     prefix = prefix or ""
-    local arr = getStrArr(t, nil, sort)
+    local arr = table2str(t, nil, sort)
     if #arr == 1 then
         arr[1] = "\n\t" .. arr[1]
     end
