@@ -28,8 +28,8 @@ log.path = "/code/war3/war3_map/war3_first/tools/slk.csv"
 
 local splite = ','
 local null = "null"
-local keys = {'id','Name','Tip','Ubertip', '_tp'}
-
+local keys = {'Name','Tip','Ubertip'}
+local fullKeys = Stream.t(keys):startWith("id"):concat(Stream.of("_tp"))
 print("start log csv")
 
 Objects:pluck("unit"):flatTable():addtp("unit")
@@ -38,13 +38,14 @@ Objects:pluck("unit"):flatTable():addtp("unit")
 	return string.match(tostring(id), "^%a%d+%a*")
 end)
 :map(function (v, id, tp)
-	return Stream.t(keys):map(function (k)
+	return fullKeys
+	:map(function (k)
 		local hash = {id=id, _tp=tp}
 		local ret =  hash[k] or v[k] or null
 		return ret
 	end):v()
 end)
-:startWith(keys):map(function (arr)
+:startWith(fullKeys:v()):map(function (arr)
 	return Stream.t(arr):reduce(function (state, v)
 		v = tostring(v):gsub("[%s,]", ".")
 		if state ~= splite then
@@ -56,7 +57,6 @@ end)
 	end, splite):v()
 end)
 :subscribe(function (str)
-	print(str)
 	log.info(str)
 end)
 

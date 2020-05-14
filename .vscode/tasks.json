@@ -13,6 +13,14 @@
             ]
         },
         {
+            "label": "csv",
+            "command": "chcp 65001 && \"${workspaceRoot}/tools/w3x2lni/bin/w3x2lni-lua.exe\"",
+            "args": [
+                ".\\tools\\读csv.lua",
+                "${workspaceRoot}"
+            ]
+        },
+        {
             "label": "配置",
             "command": "chcp 65001 && \"${workspaceRoot}/tools/w3x2lni/bin/w3x2lni-lua.exe\"",
             "args": [
