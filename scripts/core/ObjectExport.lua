@@ -15,7 +15,7 @@ end
 local Objects = Exportor.of(slk)
 log.level = 'debug'
 --配置为该项目的路径
-log.path = "/code/war3/war3_map/war3_first/tools/slk.csv"
+log.path = "D:/code/war3/war3_map/war3_first/tools/slk.csv"
 
 -- unit  单位
 -- item  物品
@@ -28,7 +28,7 @@ log.path = "/code/war3/war3_map/war3_first/tools/slk.csv"
 
 local splite = ','
 local null = "null"
-local keys = {'Name','Tip','Ubertip'}
+-- local keys = {'Name','Tip','Ubertip'}
 local fullKeys = Stream.t(keys):startWith("id"):concat(Stream.of("_tp"))
 print("start log csv")
 
@@ -47,7 +47,8 @@ end)
 end)
 :startWith(fullKeys:v()):map(function (arr)
 	return Stream.t(arr):reduce(function (state, v)
-		v = tostring(v):gsub("[%s,]", ".")
+		v = tostring(v):gsub("[%s]", " ")
+		v = tostring(v):gsub("[,]", ".")
 		if state ~= splite then
 			state = state .. splite .. v
 		else

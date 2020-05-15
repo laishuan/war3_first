@@ -2,6 +2,8 @@
     MapInitializationEvent
 条件
 动作
+    Cheat
+        常量: 'exec-lua: "lua.base"'
     SetVariable
         变量: Money
         常量: 3

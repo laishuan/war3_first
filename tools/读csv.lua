@@ -4,10 +4,10 @@ require 'core.init'
 -- require 'test'
 local keys = {'Name','Tip','Ubertip',}
 local pathRead = "D:/code/war3/war3_map/war3_first/tools/slk.csv"
-local pathBak = "D:/code/war3/war3_map/war3_first/tools/slk.csv.bak"
-local pathWrite = "D:/code/war3/war3_map/war3_first/scripts/core/AutoSLK.lua"
+local pathWrite = "D:/code/war3/war3_map/war3_first/tools/AutoSLK.lua"
 local CSVParser = rxClone("CSVParser")
-local src = "local slk = require 'jass.slk' \n"
+local src = "local slk = require 'slk' \n"
+src = src .. "local obj \n"
 CSVParser.fromFileByLine(pathRead)
 :skip(1)
 :map(function (v)
@@ -15,13 +15,15 @@ CSVParser.fromFileByLine(pathRead)
 end)
 :reduce(function (state, ...)
 	local args = {...}
+	local code = "obj = slk.%s.%s:new('%s') \n"
+	state = state .. string.format(code, args[#keys+2], args[1], args[1])
 	Stream.t(keys,nil,true)
 	:filter(function (v,i)
 		return args[i]~="null"
 	end)
 	:map(function (v,i)
-		local ret = "slk.%s.%s.%s=[[%s]]\n"
-		return string.format(ret, args[#keys+2], args[1], keys[i], args[i])
+		local ret = "obj.%s = [[%s]]\n"
+		return string.format(ret, keys[i], args[i+1])
 	end)
 	:subscribe(function (v)
 		state = state .. v
@@ -29,7 +31,6 @@ end)
 	return state
 end ,src)
 :subscribe(function (src)
-	-- print(src)
 	local file = io.open (pathWrite, "w")
 	file:write(src)
 	file:close()
