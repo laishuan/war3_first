@@ -1,10 +1,13 @@
-print("test")
 package.path = package.path .. [[;D:/code/war3/war3_map/war3_first/scripts/?.lua]]
+local config = require 'config'
 require 'core.init'
--- require 'test'
-local keys = {'Name','Tip','Ubertip',}
-local pathRead = "D:/code/war3/war3_map/war3_first/tools/slk.csv"
-local pathWrite = "D:/code/war3/war3_map/war3_first/tools/AutoSLK.lua"
+
+local fs = require 'bee.filesystem'
+local root = fs.path(arg[1])
+local keys = config.csvKeys
+local pathRead = config.pathRead
+local pathWrite = config.pathWrite
+
 local CSVParser = rxClone("CSVParser")
 local src = "local slk = require 'slk' \n"
 src = src .. "local obj \n"

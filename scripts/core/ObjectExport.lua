@@ -1,6 +1,7 @@
 -- Object2.lua
 local log = require 'jass.log'
 local slk = require 'jass.slk'
+local config = require 'config'
 
 local Exportor = rxClone("ObjectExport", Stream)
 
@@ -15,7 +16,7 @@ end
 local Objects = Exportor.of(slk)
 log.level = 'debug'
 --配置为该项目的路径
-log.path = "D:/code/war3/war3_map/war3_first/tools/slk.csv"
+log.path = config.pathRead
 
 -- unit  单位
 -- item  物品
@@ -28,7 +29,7 @@ log.path = "D:/code/war3/war3_map/war3_first/tools/slk.csv"
 
 local splite = ','
 local null = "null"
--- local keys = {'Name','Tip','Ubertip'}
+local keys = config.csvKeys
 local fullKeys = Stream.t(keys):startWith("id"):concat(Stream.of("_tp"))
 print("start log csv")
 
