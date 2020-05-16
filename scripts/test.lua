@@ -113,6 +113,11 @@
 
 -- print(table.concat({1,2,3}, ","))
 
-local slk = require 'jass.slk'
+-- local slk = require 'jass.slk'
 
-dump(slk.unit.e001)
+-- dump(slk.unit.e001)
+local str = "123,,123123,123,123,,,"
+local arr = string.split(str, ",")
+for i=1,20 do
+	print(arr[i])
+end
