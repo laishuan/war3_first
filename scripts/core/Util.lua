@@ -4,14 +4,17 @@ local limitLen = 0
 table2str = function (t, prefix, sort)
     if prefix == nil then prefix = '' end
     local ret = {}
-    if type(t) == "table" and not getmetatable(t) then
+    if type(t) == "table" --[[and not getmetatable(t)]] then
         ret[#ret+1] = prefix .. "{"
         local allKeys = Moses.keys(t)
         if sort then
             table.sort(allKeys, sort)
         end
+        if getmetatable(t) then 
+            table.insert(allKeys, 1, "__metatable") 
+        end
         for _,k in ipairs(allKeys) do
-            local v = t[k]
+            local v = (k == "__metatable" and getmetatable(t) or t[k])
             if type(k) == "number" then
                 k = "[" .. k .. ']'
             end
@@ -45,6 +48,7 @@ table2str = function (t, prefix, sort)
             return state
         end, 0)
         local arrMid = Moses.slice(nospace ,2, #nospace-1)
+        print(totalLen, limitLen)
         if totalLen < limitLen then
             return {nospace[1] .. table.concat(arrMid, ", ") .. nospace[#nospace]}
         end
@@ -189,4 +193,54 @@ string.splite = function (inputstr, sep)
                 table.insert(t, str)
         end
         return t
+end
+
+--[[
+print_dump是一个用于调试输出数据的函数，能够打印出nil,boolean,number,string,table类型的数据，以及table类型值的元表
+参数data表示要输出的数据
+参数showMetatable表示是否要输出元表
+参数lastCount用于格式控制，用户请勿使用该变量
+]]
+function print_dump(data, showMetatable, lastCount)
+    if type(data) ~= "table" then
+        --Value
+        if type(data) == "string" then
+            io.write("\"", data, "\"")
+        else
+            io.write(tostring(data))
+        end
+    else
+        --Format
+        local count = lastCount or 0
+        count = count + 1
+        io.write("{\n")
+        --Metatable
+        if showMetatable then
+            for i = 1,count do io.write("\t") end
+            local mt = getmetatable(data)
+            io.write("\"__metatable\" = ")
+            print_dump(mt, showMetatable, count)    -- 如果不想看到元表的元表，可将showMetatable处填nil
+            io.write(",\n")     --如果不想在元表后加逗号，可以删除这里的逗号
+        end
+        --Key
+        for key,value in pairs(data) do
+            for i = 1,count do io.write("\t") end
+            if type(key) == "string" then
+                io.write("\"", key, "\" = ")
+            elseif type(key) == "number" then
+                io.write("[", key, "] = ")
+            else
+                io.write(tostring(key))
+            end
+            print_dump(value, showMetatable, count) -- 如果不想看到子table的元表，可将showMetatable处填nil
+            io.write(",\n")     --如果不想在table的每一个item后加逗号，可以删除这里的逗号
+        end
+        --Format
+        for i = 1,lastCount or 0 do io.write("\t") end
+        io.write("}")
+    end
+    --Format
+    if not lastCount then
+        io.write("\n")
+    end
 end
