@@ -51,6 +51,9 @@ end)
 		arr = fullKeys:map(function (k)
 			local hash = {id=id, _tp=tp}
 			local ret =  hash[k] or v[k] or null
+			if string.len(ret) == 0 then
+				ret = null
+			end
 			return ret
 		end):v()
 	end
