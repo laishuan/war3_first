@@ -18,6 +18,8 @@ end
 
 CSVParser.fromFileByLine(pathRead)
 :map(function (v)
+	v = string.gsub(v, ",[,]+", "")
+	print(v)
 	return unpack(Stream.t(string.split(v, ",")):skip(1):v())
 end)
 :filter(function (...)
@@ -27,6 +29,7 @@ end)
 :reduce(function (state, ...)
 	local args = {...}
 	local keys = config[args[#args] .. "Keys"]
+	-- print(#args, #keys, args[1])
 	local code = "obj = slk.%s.%s:new('%s') \n"
 	state = state .. string.format(code, 
 		args[#args], 
