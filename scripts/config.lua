@@ -35,8 +35,7 @@ config.getTemplate = function (category, data, keys)
 		for k,v in pairs(keys) do
 			attrHash[v] = data[k+1]
 		end
-		if attrHash.isBuildOn ~= "null" 
-			or attrHash.canBuildOn ~= "null" then
+		if tonumber(attrHash.isbldg) == 1 then
 			return templateHash.build
 		elseif attrHash.heroAbilList ~= "null" then
 			return templateHash.hero
