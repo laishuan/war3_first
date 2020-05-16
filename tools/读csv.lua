@@ -11,15 +11,10 @@ local CSVParser = rxClone("CSVParser")
 local src = "local slk = require 'slk' \n"
 src = src .. "local obj \n"
 
-local split = function (str)
-	
-end
-
 
 CSVParser.fromFileByLine(pathRead)
 :map(function (v)
 	v = string.gsub(v, ",[,]+", "")
-	print(v)
 	return unpack(Stream.t(string.split(v, ",")):skip(1):v())
 end)
 :filter(function (...)
@@ -38,7 +33,7 @@ end)
 	)
 	Stream.t(keys,nil,true)
 	:filter(function (v,i)
-		return args[i+1] and args[i+1]~="null" 
+		return args[i+1] and args[i+1]~="null" and keys[i] ~= "code"
 	end)
 	:map(function (v,i)
 		if tonumber(args[i+1]) then
