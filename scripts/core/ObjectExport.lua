@@ -13,7 +13,6 @@ function Exportor:addtp(tp)
 	end)
 end
 
-local Objects = Exportor.of(slk)
 log.level = 'debug'
 --配置为该项目的路径
 log.path = config.pathRead
@@ -27,26 +26,34 @@ log.path = config.pathRead
 -- upgrade 科技
 -- misc 杂项
 
+print("start log csv")
 local splite = ','
 local null = "null"
-local keys = config.csvKeys
-local fullKeys = Stream.t(keys):startWith("id"):concat(Stream.of("_tp"))
-print("start log csv")
+local titleTag = "__title"
 
-Objects:pluck("unit"):flatTable():addtp("unit")
-:merge(Objects:pluck("ability"):flatTable():addtp("ability"))
-:filter(function (v, id)
-	return string.match(tostring(id), "^%a%d+%a*")
+local Objects = Exportor.of(slk)
+
+local getCategory = function (category)
+	return Objects:pluck(category):flatTable():addtp(category):startWith(titleTag, "none", category)
+end
+
+getCategory("unit")
+:concat(getCategory('ability'))
+:filter(function (v, id, tp)
+	return (v == titleTag) or string.match(tostring(id), "^%a%d+%a*")
 end)
 :map(function (v, id, tp)
-	return fullKeys
-	:map(function (k)
-		local hash = {id=id, _tp=tp}
-		local ret =  hash[k] or v[k] or null
-		return ret
-	end):v()
-end)
-:startWith(fullKeys:v()):map(function (arr)
+	local arr
+	local fullKeys = Stream.of(unpack(config[tp .. "Keys"])):startWith("id"):concat(Stream.of("_tp"))
+	if v == titleTag then
+		arr = fullKeys:v()
+	else
+		arr = fullKeys:map(function (k)
+			local hash = {id=id, _tp=tp}
+			local ret =  hash[k] or v[k] or null
+			return ret
+		end):v()
+	end
 	return Stream.t(arr):reduce(function (state, v)
 		v = tostring(v):gsub("[%s]", " ")
 		v = tostring(v):gsub("[,]", ".")
