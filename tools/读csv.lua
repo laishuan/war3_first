@@ -10,12 +10,19 @@ local pathWrite = config.pathWrite
 local CSVParser = rxClone("CSVParser")
 local src = "local slk = require 'slk' \n"
 src = src .. "local obj \n"
+
+local split = function (str)
+	
+end
+
+
 CSVParser.fromFileByLine(pathRead)
-:filter(function (v)
-	return Stream.t(string.splite(v, ",")):skip(1):v()[1] ~= "id"
-end)
 :map(function (v)
-	return unpack(Stream.t(string.splite(v, ",")):skip(1):v())
+	return unpack(Stream.t(string.split(v, ",")):skip(1):v())
+end)
+:filter(function (...)
+	local args = {...}
+	return args[1] ~= "id"
 end)
 :reduce(function (state, ...)
 	local args = {...}
