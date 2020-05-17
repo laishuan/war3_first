@@ -11,11 +11,12 @@ local CSVParser = rxClone("CSVParser")
 local src = "local slk = require 'slk' \n"
 src = src .. "local obj \n"
 
+local mutiSplit = config.split .. "[" .. config.split .. "]+"
 
 CSVParser.fromFileByLine(pathRead)
 :map(function (v)
-	v = string.gsub(v, ",[,]+", "")
-	return unpack(Stream.t(string.split(v, ",")):skip(1):v())
+	v = string.gsub(v, mutiSplit, "")
+	return unpack(Stream.t(string.split(v, config.split)):skip(1):v())
 end)
 :filter(function (...)
 	local args = {...}
@@ -37,16 +38,18 @@ end)
 	end)
 	:map(function (v,i)
 		if tonumber(args[i+1]) then
-			local ret = "obj.%s = %s\n"
+			local ret = "\t%s = %s,\n"
 			return string.format(ret, keys[i], args[i+1])
 		else
-			local ret = "obj.%s = [[%s]]\n"
+			local ret = "\t%s = [[%s]],\n"
 			return string.format(ret, keys[i], args[i+1])
 		end
 	end)
+	:startWith("{ \n"):concat(Stream.of("} \n"))
 	:subscribe(function (v)
 		state = state .. v
 	end)
+	-- state = state .. "obj:permanent() \n"
 	return state
 end ,src)
 :subscribe(function (src)

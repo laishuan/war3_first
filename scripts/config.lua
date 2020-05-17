@@ -15,6 +15,8 @@ config.abilityKeys = {"Animnames","Area1","Art","BuffID1","Buttonpos_1","Buttonp
 config.buffKeys = {"EditorName","MissileHoming","Missilearc","Missilespeed","Spelldetail","TargetArt","Targetattach","Targetattachcount","code","isEffect","race","Buffart","Bufftip","Buffubertip","SpecialArt","Specialattach","EffectArt","Effectsoundlooped","EditorSuffix","Targetattach1","Targetattach2","Targetattach3","Missileart","Effectsound","Effectattach","LightningEffect","Targetattach4","Targetattach5"}
 config.upgradeKeys = {"Art1","Buttonpos_1","Buttonpos_2","EditorSuffix1","Hotkey1","Name1","Requires1","Requiresamount1","Tip1","Ubertip1","base1","base2","base3","base4","class","code1","code2","code3","code4","effect1","effect2","effect3","effect4","global","goldbase","goldmod","inherit","lumberbase","lumbermod","maxlevel","mod1","mod2","mod3","mod4","race","timebase","timemod","Art2","EditorSuffix2","Hotkey2","Name2","Requires2","Requiresamount2","Tip2","Ubertip2","Art3","EditorSuffix3","Hotkey3","Name3","Requires3","Requiresamount3","Tip3","Ubertip3"}
 
+config.split = ";"
+
 local templateHash = {
 	hero = "Hmkg", --山丘之王
 	build = "owtw", -- 兽族防御塔
