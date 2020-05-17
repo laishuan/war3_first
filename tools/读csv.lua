@@ -34,12 +34,15 @@ end)
 	)
 	Stream.t(keys,nil,true)
 	:filter(function (v,i)
-		return args[i+1] and args[i+1]~="null" and keys[i] ~= "code"
+		return args[i+1]--[[and args[i+1]~="null"]] and keys[i] ~= "code"
 	end)
 	:map(function (v,i)
 		if tonumber(args[i+1]) then
 			local ret = "\t%s = %s,\n"
 			return string.format(ret, keys[i], args[i+1])
+		elseif args[i+1] == "null" then
+			local ret = "\t%s = [[%s]],\n"
+			return string.format(ret, keys[i], "")
 		else
 			local ret = "\t%s = [[%s]],\n"
 			return string.format(ret, keys[i], args[i+1])
