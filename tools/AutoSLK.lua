@@ -16551,7 +16551,7 @@ obj = slk.ability.Aply:new('A000')
 	Targetattach4 = [[]],
 	Targetattach5 = [[]],
 } 
-obj = slk.ability.Aply:new('A001') 
+obj = slk.ability.Aroc:new('A001') 
 { 
 	Animnames = [[]],
 	Area1 = 1000,
@@ -16701,7 +16701,7 @@ obj = slk.ability.Aply:new('A001')
 	Targetattach4 = [[]],
 	Targetattach5 = [[]],
 } 
-obj = slk.ability.Aply:new('A002') 
+obj = slk.ability.Acrs:new('A002') 
 { 
 	Animnames = [[]],
 	Area1 = 0,
@@ -16851,7 +16851,7 @@ obj = slk.ability.Aply:new('A002')
 	Targetattach4 = [[]],
 	Targetattach5 = [[]],
 } 
-obj = slk.ability.Aply:new('A003') 
+obj = slk.ability.Aakb:new('A003') 
 { 
 	Animnames = [[]],
 	Area1 = 900,
@@ -17001,7 +17001,7 @@ obj = slk.ability.Aply:new('A003')
 	Targetattach4 = [[]],
 	Targetattach5 = [[]],
 } 
-obj = slk.ability.Aply:new('A004') 
+obj = slk.ability.Amgr:new('A004') 
 { 
 	Animnames = [[]],
 	Area1 = 0,
@@ -17151,7 +17151,7 @@ obj = slk.ability.Aply:new('A004')
 	Targetattach4 = [[]],
 	Targetattach5 = [[]],
 } 
-obj = slk.ability.Aply:new('A005') 
+obj = slk.ability.ANdp:new('A005') 
 { 
 	Animnames = [[]],
 	Area1 = 0,
@@ -17451,7 +17451,7 @@ obj = slk.ability.Aap1:new('A006')
 	Targetattach4 = [[]],
 	Targetattach5 = [[]],
 } 
-obj = slk.ability.Aply:new('A007') 
+obj = slk.ability.Ablo:new('A007') 
 { 
 	Animnames = [[]],
 	Area1 = 0,
@@ -17601,7 +17601,7 @@ obj = slk.ability.Aply:new('A007')
 	Targetattach4 = [[]],
 	Targetattach5 = [[]],
 } 
-obj = slk.ability.Aply:new('A008') 
+obj = slk.ability.Ablo:new('A008') 
 { 
 	Animnames = [[]],
 	Area1 = 0,
@@ -17751,7 +17751,7 @@ obj = slk.ability.Aply:new('A008')
 	Targetattach4 = [[]],
 	Targetattach5 = [[]],
 } 
-obj = slk.ability.Aply:new('A009') 
+obj = slk.ability.Ablo:new('A009') 
 { 
 	Animnames = [[]],
 	Area1 = 0,
@@ -17901,7 +17901,7 @@ obj = slk.ability.Aply:new('A009')
 	Targetattach4 = [[]],
 	Targetattach5 = [[]],
 } 
-obj = slk.ability.Aply:new('A00A') 
+obj = slk.ability.Ablo:new('A00A') 
 { 
 	Animnames = [[]],
 	Area1 = 0,
@@ -18051,7 +18051,7 @@ obj = slk.ability.Aply:new('A00A')
 	Targetattach4 = [[]],
 	Targetattach5 = [[]],
 } 
-obj = slk.ability.Aply:new('A00B') 
+obj = slk.ability.ACat:new('A00B') 
 { 
 	Animnames = [[]],
 	Area1 = 900,
@@ -18201,7 +18201,7 @@ obj = slk.ability.Aply:new('A00B')
 	Targetattach4 = [[]],
 	Targetattach5 = [[]],
 } 
-obj = slk.ability.Aply:new('A00C') 
+obj = slk.ability.Afra:new('A00C') 
 { 
 	Animnames = [[]],
 	Area1 = 0,

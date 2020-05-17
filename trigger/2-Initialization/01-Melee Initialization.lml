@@ -13,7 +13,7 @@
     ForForce
         函数: GetPlayersAll
         动作: AdjustPlayerStateBJ
-            常量: 200
+            常量: 70
             函数: GetEnumPlayer
             预设: PlayerStateGold
     SetVariable
