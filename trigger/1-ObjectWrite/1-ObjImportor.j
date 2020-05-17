@@ -2,6 +2,6 @@
 //TESH.alwaysfold=0
 function LuaInit takes nothing returns nothing
 <?
-    dofile("D:/code/war3/war3_map/war3_first/tools/AutoSLK.lua")
+    dofile("D:/workspace_war3/war3_first/tools/AutoSLK.lua")
 ?>
 endfunction
