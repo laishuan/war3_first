@@ -27,7 +27,7 @@ log.path = config.pathRead
 -- misc 杂项
 
 print("start log csv")
-local splite = ','
+local split = config.split
 local null = "null"
 local titleTag = "__title"
 
@@ -59,14 +59,14 @@ end)
 	end
 	return Stream.t(arr):reduce(function (state, v)
 		v = tostring(v):gsub("[%s]", " ")
-		v = tostring(v):gsub("[,]", ".")
-		if state ~= splite then
-			state = state .. splite .. v
+		v = tostring(v):gsub(split, " ")
+		if state ~= split then
+			state = state .. split .. v
 		else
 			state = state .. v
 		end
 		return state
-	end, splite):v()
+	end, split):v()
 end)
 :subscribe(function (str)
 	log.info(str)
