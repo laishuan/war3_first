@@ -3,14 +3,16 @@
 local config = {}
 
 config.isDevleping = true
-config.logPath = "D:/code/war3/war3_map/war3_first/tools/csvs/"
-config.pathWrite = "D:/code/war3/war3_map/war3_first/tools/AutoSLK.lua"
-config.pathKeys = "D:/code/war3/war3_map/war3_first/tools/csvs/keys.csv"
+config.toolPath = "D:/code/war3/war3_map/war3_first/tools/" 
+config.logPath = config.toolPath .. "csvs/"
+config.pathKeys = config.toolPath .. "keys.lua"
+config.pathWrite = config.toolPath .. "AutoSLK.lua"
+config.keyStrDet = 50
 config.idRule = function (v, id, tp)
 	return string.match(tostring(id), "^%a%d+%a*")
 end
 config.split = ";"
-
+config.null = "null"
 -- unit  单位
 -- item  物品
 -- destructable 可催毁物
@@ -18,7 +20,10 @@ config.split = ";"
 -- ability 技能
 -- buff 光环
 -- upgrade 科技
-
+config.allItems = {
+	'unit', 'item', 'destructable', 
+	'doodad', 'ability', 'buff', 'upgrade'
+}
 config.exportItems = {'unit', 'ability'}
 
 local templateHash = {
@@ -33,6 +38,15 @@ local templateHash = {
 	buff = "BHbd", --暴风雪
 	upgrade = "Rhpm", -- 背包
 }
+
+
+config.transV = function (v)
+	local ret = v or config.null
+	if string.len(ret) == 0 then
+		ret = config.null
+	end
+	return ret
+end
 
 config.getTemplate = function (category, data, keys)
 	local attrHash = {}

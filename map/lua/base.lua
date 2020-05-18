@@ -49,4 +49,5 @@ end
 
 print("--start")
 --初始化本地脚本
+ExportConfig = require "config" 
 require 'main'

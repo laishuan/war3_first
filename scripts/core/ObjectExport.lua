@@ -1,7 +1,6 @@
 -- Object2.lua
 local log = require 'jass.log'
 local slk = require 'jass.slk'
-local config = require 'config'
 
 local Exportor = rxClone("ObjectExport", Stream)
 
@@ -25,10 +24,10 @@ log.level = 'debug'
 -- misc 杂项
 
 print("start log csv")
-local split = config.split
-local null = "null"
+local split = ExportConfig.split
+local null = ExportConfig.null
 local titleTag = "__title"
-local items = config.exportItems
+local items = ExportConfig.exportItems
 local keys = Stream.of(unpack(items)):map(function (v)
 	return Stream.of(slk)
 		:pluck(v)
@@ -61,24 +60,32 @@ end)
 end)
 :flatten()
 :filter(function (v, id, tp)
-	return (v == titleTag) or config.idRule(v, id, tp)
+	return (v == titleTag) or ExportConfig.idRule(v, id, tp)
 end)
 :map(function (v, id, tp)
 	local arr
 	local tpKeys = keys[tp]
-	local fullKeys = Stream.of(unpack(tpKeys)):startWith("id"):concat(Stream.of("_tp"))
+	local fullKeys = Stream.of(unpack(tpKeys)):startWith("id"):concat(Stream.of("_keys"), Stream.of("_tp"))
 	if v == titleTag then
 		arr = fullKeys:v()
 	else
 		arr = fullKeys:map(function (k)
-			local hash = {id=id, _tp=tp}
-			local ret =  hash[k] or v[k] or null
-			if string.len(ret) == 0 then
-				ret = null
+			if k == "_keys" then
+				return Stream.t(v, nil, true):reduce(function (state, v, k)
+					if type(k) == "string" then
+						state[#state+1] = k
+					end
+					return state
+				end, {}):map(function (keys)
+					return  table.concat(keys, "___")
+				end):v()
+			else
+				local hash = {id=id, _tp=tp}
+				return  hash[k] or ExportConfig.transV(v[k])
 			end
-			return ret
 		end):v()
 	end
+	-- dump(arr)
 	return Stream.t(arr):reduce(function (state, v)
 		v = tostring(v):gsub("[%s]", " ")
 		v = tostring(v):gsub(split, " ")
@@ -91,7 +98,7 @@ end)
 	end, split):v(), tp
 end)
 :subscribe(function (str, tp)
-	log.path = config.logPath .. tp .. ".csv"
+	log.path = ExportConfig.logPath .. tp .. ".csv"
 	log.info(str)
 end)
 
