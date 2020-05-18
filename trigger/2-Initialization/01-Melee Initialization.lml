@@ -6,7 +6,7 @@
         常量: 'exec-lua: "lua.base"'
     SetVariable
         变量: Money
-        常量: 3
+        常量: 1
     SetVariable
         变量: Extra_money
         常量: 4

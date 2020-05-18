@@ -13,14 +13,14 @@
                 预设: OperatorEqualENE
                 常量: false
         动作
-            SetUnitPositionLoc
+            禁用: SetUnitPositionLoc
                 函数: GetTrainedUnit
                 函数: GetRectCenter
-                    变量: gg_rct_Blue_area
-            PanCameraToTimedLocForPlayer
+                    禁用: 
+            禁用: PanCameraToTimedLocForPlayer
                 预设: Player01
                 函数: GetRectCenter
-                    变量: gg_rct_Blue_area
+                    禁用: 
                 常量: 0
         动作
             DoNothing

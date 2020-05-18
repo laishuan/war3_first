@@ -15,7 +15,7 @@
             IssuePointOrderLoc
                 函数: GetEnteringUnit
                 预设: UnitOrderMove
-                函数: GetRectCenter
+                函数: GetRandomLocInRect
                     变量: gg_rct_air_path_yellow_2
         动作
             DoNothing
