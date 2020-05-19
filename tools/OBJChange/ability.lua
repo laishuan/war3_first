@@ -1,0 +1,91 @@
+return {
+    items={
+        A00B={
+            targs="air,friend,ground,invulnerable,self,structure,vulnerable", _parent="ACat", Name="Goos Frabah", 
+            Art="ReplaceableTextures\\CommandButtons\\BTNSleep.blp", Tip="Goos Frabah", 
+            TargetArt="Abilities\\Spells\\Other\\Drain\\ManaDrainTarget.mdl", 
+        },
+        A005={
+            hero=0, Tip="|cffffcc00F|rlaming Poop Bag", DataC=1, 
+            EffectArt="Abilities\\Spells\\Human\\DispelMagic\\DispelMagicTarget.mdl", Researchhotkey="F", 
+            Art="ReplaceableTextures\\CommandButtons\\BTNDustOfAppearance.blp", levels=1, _parent="ANdp", DataB=1, 
+            Ubertip="Frank and Jack set down a Flaming Poop Bag for an enemy to step on.", 
+            ResearchArt="ReplaceableTextures\\CommandButtons\\BTNDustOfAppearance.blp", Name="Flaming Poop Bag", 
+            Hotkey="F", DataA="n000", 
+        },
+        A001={
+            Tip="Multi-Attack", DataC=10, 
+            Ubertip="Fires fast rocks at nearby enemy air units, dealing <hrtt,mindmg2> - <hrtt,maxdmg2> damage per hit.", 
+            Art="ReplaceableTextures\\CommandButtons\\BTNSteelRanged.blp", Requires="", Name="Multi-Attack", 
+            DataA=450.0000, _parent="Aroc", DataB=99999.0000, Missilearc=0.3500, 
+            Missileart="abilities\\weapons\\catapult\\catapultmissile.mdl", Missilespeed=2000, Cool=0.1000, 
+            Area=1000.0000, 
+        },
+        A003={
+            targs="friend,ground,self,structure,vulnerable", _parent="Aakb", Name="It's all in the hips.", 
+            Tip="It's all in the hips.", 
+            Ubertip="Boosts the confidence of nearby friendly units making them have a 30% damage increase.", 
+            Art="ReplaceableTextures\\PassiveButtons\\PASBTNGnollCommandAura.blp", checkDep=0, DataA=0.3000, 
+        },
+        A00A={
+            Tip="Get Pi|cffffcc00s|rsed", Cost=0, Unhotkey="S", 
+            Art="ReplaceableTextures\\CommandButtons\\BTNAvatarOff.blp", 
+            Unart="ReplaceableTextures\\CommandButtons\\BTNAvatarOff.blp", targs="player,structure", _parent="Ablo", 
+            Requires="", Requiresamount="", Name="Get Pissed", Hotkey="S", DataA=0.1000, 
+        },
+        A00C={
+            _parent="Afra", Dur=0.1000, Tip="Slow", HeroDur=0.1000, 
+            Art="ReplaceableTextures\\CommandButtons\\BTNSlow.blp", Name="Slow", Missileart="", 
+        },
+        A007={
+            Tip="|cffffcc00S|rteroids", Cost=0, Unhotkey="S", 
+            Art="ReplaceableTextures\\CommandButtons\\BTNVialFull.blp", 
+            Unart="ReplaceableTextures\\CommandButtons\\BTNVialFull.blp", 
+            targs="air,friend,ground,neutral,self,structure", Requiresamount="", Requires="", _parent="Ablo", 
+            Hotkey="S", Name="Steroids", 
+        },
+        A000={
+            DataC=1200.0000, Cost=0, Order="curseon", Art="ReplaceableTextures\\CommandButtons\\BTNSeigeEngine.blp", 
+            Orderon="curseon", DataB=125.0000, 
+            SpecialArt="Objects\\Spawnmodels\\Human\\HumanLargeDeathExplode\\HumanLargeDeathExplode.mdl", 
+            DataA=25.0000, Tip="|cffffcc00C|rar Attack", Rng=1200.0000, Orderoff="curseoff", targs="air,enemies,ground", 
+            _parent="ACca", Name="Car Attack", Missileart="units\\human\\WarWagon\\WarWagon_V1.mdl", 
+            Unorder="curseoff", Ubertip="Donald runs over enemies in his car.", Cool=0.5000, 
+        },
+        A004={
+            _parent="Amgr", Name="Car Attack", Ubertip="Donald drives his car into many surrounding enemies.", 
+            Art="ReplaceableTextures\\CommandButtons\\BTNSeigeEngine.blp", Tip="Car Attack", 
+        },
+        A002={
+            Cost=0, Order="carrionswarm", Orderoff="carrionswarm", targs="air,enemies,ground", _parent="Acrs", 
+            Name="Car Attack", BuffID="", Rng=1200.0000, Orderon="carrionswarm", checkDep=0, Cool=0.5000, 
+        },
+        A008={
+            Tip="Get Pi|cffffcc00s|rsed", Cost=0, Unhotkey="S", 
+            Art="ReplaceableTextures\\CommandButtons\\BTNAvatarOff.blp", 
+            Unart="ReplaceableTextures\\CommandButtons\\BTNAvatarOff.blp", targs="player,structure", _parent="Ablo", 
+            Requires="", Requiresamount="", Name="Get Pissed", Hotkey="S", DataA=0.6000, 
+        },
+        A006={
+            targs="air,enemies,ground,neutral,organic", _parent="Aap1", Name="Pot Smoke (Abomination)", 
+            Ubertip="Infects nearby enemy living units with Pot Smoke. The smoke deals <Aap1,DataB1> damage per second. |nLasts <Aap1,DataA1> seconds.", 
+            Tip="Smoke", Requires="", DataB=7.0000, 
+        },
+        A009={
+            Tip="Get Pi|cffffcc00s|rsed", Cost=0, Unhotkey="S", 
+            Art="ReplaceableTextures\\CommandButtons\\BTNAvatarOff.blp", EditorSuffix="3", targs="player,structure", 
+            _parent="Ablo", Name="Get Pissed", Unart="ReplaceableTextures\\CommandButtons\\BTNAvatarOff.blp", 
+            Requiresamount="", Requires="", Hotkey="S", DataA=0.3000, 
+        },
+        AUcs={
+            DataC={1200.0000, 800.0000, 800.0000}, Rng={1200.0000, 700.0000, 700.0000}, 
+            Art="ReplaceableTextures\\CommandButtons\\BTNSeigeEngine.blp", _parent="AUcs", 
+            DataB={125.0000, 600.0000, 1000.0000}, Missileart="units\\human\\WarWagon\\WarWagon_V1.mdl", 
+            SpecialArt="units\\human\\WarWagon\\WarWagon_V1.mdl", 
+            ResearchArt="ReplaceableTextures\\CommandButtons\\BTNSeigeEngine.blp", 
+            DataA={25.0000, 125.0000, 200.0000}, 
+        },
+        Amnx={DataD=500.0000, _parent="Amnx"}, 
+    },
+    category="ability", 
+}

@@ -1,0 +1,1 @@
+return {items={}, category="destructable"}

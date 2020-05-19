@@ -74,4 +74,32 @@ config.getTemplate = function (category, data, keys)
 	end
 end
 
+config.dealOBJ = function (data)
+	for id,itemData in pairs(data.items) do
+		local delKeys = {}
+		local addKV = {}
+		for kk,vv in pairs(itemData) do
+			if type(vv) == "table" and #vv > 0 then
+				-- print("find error:", kk, " id:" .. id .. " category:" .. category)
+				for i=1,#vv do
+					local newKey = kk  .. i
+					addKV[#addKV+1] = {newKey, vv[i]}
+					if data.keys then
+						data.keys[newKey] = data.keys[kk]
+					end
+				end
+				delKeys[#delKeys+1] = kk
+			end
+		end
+		for i,v in ipairs(delKeys) do
+			itemData[v] = nil
+		end
+
+		for i,v in ipairs(addKV) do
+			itemData[v[1]] = v[2]
+		end
+
+	end
+end
+
 return config
