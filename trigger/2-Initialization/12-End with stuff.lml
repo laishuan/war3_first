@@ -12,4 +12,4 @@
         函数: GetPlayersAll
         动作: CustomDefeatBJ
             函数: GetEnumPlayer
-            常量: 'OH...you lost on the last level...sorry...'
+            常量: '噢.真可惜! 最后一关惜败!'

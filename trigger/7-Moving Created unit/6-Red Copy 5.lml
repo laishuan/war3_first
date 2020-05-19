@@ -16,11 +16,11 @@
             SetUnitPositionLoc
                 函数: GetTrainedUnit
                 函数: GetRectCenter
-                    变量: gg_rct_air_path_gray
+                    变量: gg_rct_END
             PanCameraToTimedLocForPlayer
                 预设: Player08
                 函数: GetRectCenter
-                    变量: gg_rct_air_path_gray
+                    变量: gg_rct_END
                 常量: 0
         动作
             DoNothing
