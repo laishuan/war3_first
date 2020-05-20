@@ -7,6 +7,8 @@ require 'core.init'
 local pathWrite = config.logPath
 
 print("start ")
+require 'parseChangeIni'
+
 local split = config.split
 local null = config.null
 local items = config.allItems
