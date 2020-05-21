@@ -63,12 +63,14 @@ end)
 		end
 		local parent = args[#args-1]
 		local objBase = require ("OBJBase." .. tp)
+		local objChange = require ("OBJChange." .. tp)
 		local realKeys = Stream.of(objBase.items[parent])
 		:flatTable()
+		:concat(Stream.of(objChange.items[args[1]] or {}):flatTable())
 		:reduce(function (state,v,k)
 			state[#state+1] = k
 			return state
-		end,{}):v()
+		end,{}):distinct():v()
 		if Stream.of(unpack(realKeys)):count(function (k)
 			return k == v
 		end):v() <= 0 then
