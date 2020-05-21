@@ -1,51 +1,85 @@
-package.path = package.path .. [[;D:/workspace_war3/war3_first/scripts/?.lua]]
-local config = require 'config'
-require 'core.init'
 
 local fs = require 'bee.filesystem'
-local root = fs.path(arg[1])
-local pathRead = config.pathRead
+local root = "D:/workspace_war3/war3_first/" 
+package.path = package.path .. [[;]] .. root .. [[scripts/?.lua;]] .. root .. [[tools/?.lua]]
+local config = require 'config'
+require 'core.init'
 local pathWrite = config.pathWrite
+
+local getTemplate = function (tp, args, keys)
+	return args[#args-1]
+end
 
 local CSVParser = rxClone("CSVParser")
 local src = "local slk = require 'slk' \n"
 src = src .. "local obj \n"
 
 local mutiSplit = config.split .. "[" .. config.split .. "]+"
-
-CSVParser.fromFileByLine(pathRead)
+local curKeys
+print("start")
+local items = config.allItems
+Stream.t(items)
 :map(function (v)
-	v = string.gsub(v, mutiSplit, "")
-	return unpack(Stream.t(string.split(v, config.split)):skip(1):v())
+	local objBase = require ("OBJBase." .. v)
+	config.dealOBJ(objBase)
+	return CSVParser.fromFileByLine(config.logPath .. v .. ".csv"):skip(1)
 end)
-:filter(function (...)
-	local args = {...}
-	return args[1] ~= "id"
+:reduce(function (state, v)
+	return state:concat(v)
 end)
-:reduce(function (state, ...)
-	local args = {...}
-	local keys = config[args[#args] .. "Keys"]
-	-- print(#args, #keys, args[1])
+:flatten()
+:map(function (v)
+	local arr = string.split(v, config.split)
+	return arr
+end)
+:filter(function (arr)
+	return arr[1] ~= arr[#arr-1]
+end)
+:reduce(function (state, args)
+	-- print(args[1])
+	if args[1] == "id" then
+		curKeys = Stream.t(args):skip(1):skipLast(2):v()
+		return state
+	end
 	local code = "obj = slk.%s.%s:new('%s') \n"
 	state = state .. string.format(code, 
 		args[#args], 
-		config.getTemplate(args[#args], args, keys), 
+		-- config.getTemplate(args[#args], args, curKeys), 
+		getTemplate(args[#args], args, curKeys),
 		args[1]
 	)
-	Stream.t(keys,nil,true)
+	Stream.t(curKeys,nil,true)
 	:filter(function (v,i)
-		return args[i+1]--[[and args[i+1]~="null"]] and keys[i] ~= "code"
+		local tp = args[#args]
+		if tp == "ability" and v == "code" then
+			return false
+		end
+		local parent = args[#args-1]
+		local objBase = require ("OBJBase." .. tp)
+		local realKeys = Stream.of(objBase.items[parent])
+		:flatTable()
+		:reduce(function (state,v,k)
+			state[#state+1] = k
+			return state
+		end,{}):v()
+		if Stream.of(unpack(realKeys)):count(function (k)
+			return k == v
+		end):v() <= 0 then
+			-- print("count <= 0 v: ", v, " id:", args[1])
+			return false
+		end
+		return true
 	end)
 	:map(function (v,i)
 		if tonumber(args[i+1]) then
 			local ret = "\t%s = %s,\n"
-			return string.format(ret, keys[i], args[i+1])
+			return string.format(ret, curKeys[i], args[i+1])
 		elseif args[i+1] == "null" then
 			local ret = "\t%s = [[%s]],\n"
-			return string.format(ret, keys[i], "")
+			return string.format(ret, curKeys[i], "")
 		else
 			local ret = "\t%s = [[%s]],\n"
-			return string.format(ret, keys[i], args[i+1])
+			return string.format(ret, curKeys[i], args[i+1])
 		end
 	end)
 	:startWith("{ \n"):concat(Stream.of("} \n"))

@@ -135,7 +135,7 @@
                 变量: gg_rct_air_path_yellow_2
     CreateTimerDialogBJ
         变量: End_timer
-        常量: 'Time to end of game.'
+        常量: '结束倒计时:'
     TimerDialogDisplayBJ
         预设: ShowHideShow
         函数: GetLastCreatedTimerDialogBJ
@@ -149,6 +149,6 @@
             函数: GetRectCenter
                 变量: gg_rct_END
     StartTimerBJ
-        变量: Timer_21
+        变量: Timer_31
         预设: PeriodicOptionOneTime
         常量: 90.00

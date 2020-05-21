@@ -2,19 +2,20 @@
     1-ObjImportor: ObjImportor
         禁用
 2-Initialization: Initialization
-    '01-Melee Initialization': 'Melee Initialization'
-    02-Path: Path
-    '03-Path 2': 'Path 2'
-    '04-Path 3': 'Path 3'
-    '05-Path 4': 'Path 4'
-    '06-Path Copy': 'Path Copy'
-    '07-Path Copy 2': 'Path Copy 2'
-    '08-Path Copy 3': 'Path Copy 3'
-    '09-Path Copy 4': 'Path Copy 4'
-    '10-Path Copy 5': 'Path Copy 5'
-    '11-Losing life': 'Losing life'
-    '12-End with stuff': 'End with stuff'
-    13-Bounty: Bounty
+    '01-Game successs': 'Game successs'
+    '02-Melee Initialization': 'Melee Initialization'
+    03-Path: Path
+    '04-Path 2': 'Path 2'
+    '05-Path 3': 'Path 3'
+    '06-Path 4': 'Path 4'
+    '07-Path Copy': 'Path Copy'
+    '08-Path Copy 2': 'Path Copy 2'
+    '09-Path Copy 3': 'Path Copy 3'
+    '10-Path Copy 4': 'Path Copy 4'
+    '11-Path Copy 5': 'Path Copy 5'
+    '12-Losing life': 'Losing life'
+    '13-End with stuff': 'End with stuff'
+    14-Bounty: Bounty
 3-Stuff: Stuff
     1-vuln: vuln
     '2-vuln Copy': 'vuln Copy'

@@ -1,0 +1,29 @@
+事件
+    TriggerRegisterTimerExpireEventBJ
+        变量: Timer_31
+条件
+动作
+    CustomVictoryBJ
+        预设: Player00
+        预设: UseSkipOptionUse
+        预设: UseSkipOptionUse
+    CustomVictoryBJ
+        预设: Player01
+        预设: UseSkipOptionUse
+        预设: UseSkipOptionUse
+    CustomVictoryBJ
+        预设: Player02
+        预设: UseSkipOptionUse
+        预设: UseSkipOptionUse
+    CustomVictoryBJ
+        预设: Player03
+        预设: UseSkipOptionUse
+        预设: UseSkipOptionUse
+    CustomVictoryBJ
+        预设: Player04
+        预设: UseSkipOptionUse
+        预设: UseSkipOptionUse
+    CustomVictoryBJ
+        预设: Player08
+        预设: UseSkipOptionUse
+        预设: UseSkipOptionUse

@@ -43,3 +43,5 @@ String: string
 Extra_money: integer
 Timer_22: timer
 End_timer: timer
+Timer_31: timer
+enemy30: group
