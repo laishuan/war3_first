@@ -1,5 +1,5 @@
 
-local fs = require 'bee.filesystem'
+-- local fs = require 'bee.filesystem'
 local root = "D:/code/war3/war3_map/war3_first/" 
 package.path = package.path .. [[;]] .. root .. [[scripts/?.lua;]] .. root .. [[tools/?.lua]]
 local config = require 'config'
@@ -22,7 +22,14 @@ Stream.t(items)
 :map(function (v)
 	local objBase = require ("OBJBase." .. v)
 	config.dealOBJ(objBase)
-	return CSVParser.fromFileByLine(config.logPath .. v .. ".csv"):skip(1)
+	local filePath = config.logPath .. v .. ".csv"
+	local file = io.open(filePath)
+	if file then
+		file:close()
+		return CSVParser.fromFileByLine(filePath):skip(1)
+	else
+		return CSVParser.empty()
+	end 
 end)
 :reduce(function (state, v)
 	return state:concat(v)
