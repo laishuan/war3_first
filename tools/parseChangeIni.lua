@@ -27,9 +27,12 @@ Stream.t(items):flatMap(function (category)
 	local nextDec
 	local curKey, curKeyIndex
 	local lastKey
-	return Stream.safeFileByLine(fileName)
+	return Stream.safeFileByLine(fileName):compact()
 	:reduce(function (state, strLine)
 		print("check, line:", strLine, " curKey:" .. tostring(curKey), " id:", curID)
+		if string.match(strLine, "^%s*$")  then
+			return state
+		end
 		if curKey then
 			local doAddKey = function (key, index, value)
 				value = string.gsub(tostring(value), "%s*%d*%s*=%s*", "")
