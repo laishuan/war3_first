@@ -1,0 +1,2 @@
+id;颜色值(蓝);购买开始时间;使用完会消失;说明;无视CD间隔;持有者死亡时掉落;主动使用;使用模型;颜色值(绿);装甲类型;最大库存量;需求;提示工具 - 扩展;可被市场出售;名字;使用次数;黄金消耗;可作为随机物品;可以被抵押;木材消耗;物品分类;CD间隔组;提示工具 - 基础;选择圈大小(编辑器);按钮位置(X);生命值;优先权;按钮位置(Y);颜色值(红);界面图标;购买时间间隔;模型缩放;技能;可以丢弃;有效的物品转换目标;热键;等级;等级(旧版);捡取时自动使用;模板;类型
+id;colorB;stockStart;perishable;Description;ignoreCD;drop;usable;file;colorG;armor;stockMax;Requires;Ubertip;sellable;Name;uses;goldcost;pickRandom;pawnable;lumbercost;class;cooldownID;Tip;selSize;Buttonpos_1;HP;prio;Buttonpos_2;colorR;Art;stockRegen;scale;abilList;droppable;morph;Hotkey;Level;oldLevel;powerup;_parent;_tp

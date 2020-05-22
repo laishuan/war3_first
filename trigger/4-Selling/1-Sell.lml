@@ -53,11 +53,11 @@
                 函数: GetTrainedUnit
         函数: OperatorString
             函数: OperatorString
-                常量: '|cff0042ffYou recieved |r'
+                常量: '|cff0042ff接收到 |r'
                 函数: I2S
                     函数: GetUnitPointValue
                         函数: GetTriggerUnit
             函数: OperatorString
-                常量: '|cff0042ff gold for selling a |r'
+                常量: '|cff0042ff 售出金币 |r'
                 函数: GetUnitName
                     函数: GetTriggerUnit

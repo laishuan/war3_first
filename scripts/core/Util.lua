@@ -1,6 +1,11 @@
 -- Util.lua
 local space = "    "
 local limitLen = 0
+
+setDumpLimit = function (limit)
+    limitLen = limit
+end
+
 table2str = function (t, prefix, sort)
     if prefix == nil then prefix = '' end
     local ret = {}
@@ -48,7 +53,7 @@ table2str = function (t, prefix, sort)
             return state
         end, 0)
         local arrMid = Moses.slice(nospace ,2, #nospace-1)
-        print(totalLen, limitLen)
+        -- print(totalLen, limitLen)
         if totalLen < limitLen then
             return {nospace[1] .. table.concat(arrMid, ", ") .. nospace[#nospace]}
         end
@@ -185,16 +190,28 @@ rxClone = function (name, super)
 end
 
 string.split = function (inputstr, sep)
-
     if sep == nil then
             sep = "%s"
     end
     while string.match(inputstr, sep .. sep) do
         inputstr = string.gsub(inputstr, sep .. sep, sep .. "null" .. sep)
     end
-    local t={}
-    for str in string.gmatch(inputstr, "([^"..sep.."]+)") do
-            table.insert(t, str)
+    local lst = { }
+    local n = string.len(inputstr)--长度
+    local seplen = string.len(sep)
+    local start = 1
+    while start <= n do
+        local i, e = string.find(inputstr, sep, start) -- find 'next' 0
+        if i == nil then 
+            table.insert(lst, string.sub(inputstr, start, n))
+            break 
+        end
+        table.insert(lst, string.sub(inputstr, start, i-1))
+        if i == n then
+            table.insert(lst, "")
+            break
+        end
+        start = e + 1
     end
-    return t
+    return lst
 end

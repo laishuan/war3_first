@@ -14,10 +14,11 @@ print = function ( ... )
 	end
 end
 
-local pathRead = root .. "table/"
-local pathWrite = "/OBJChange/"
--- local pathRead = root .. "tools/w3x2lni/template/Custom/"
--- local pathWrite = "/OBJBase/"
+-- local pathRead = root .. "table/"
+-- local pathWrite = "/OBJChange/"
+local pathRead = root .. "tools/w3x2lni/template/Custom/"
+local pathWrite = "/OBJBase/"
+
 local items = config.allItems
 Stream.t(items):flatMap(function (category)
 	local fileName = pathRead .. category .. ".ini"

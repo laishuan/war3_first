@@ -1,6 +1,6 @@
 事件
     TriggerRegisterUnitEvent
-        变量: gg_unit_h000_0001
+        变量: gg_unit_h000_0002
         预设: UnitEventTrainFinish
 条件
 动作
@@ -13,14 +13,14 @@
                 预设: OperatorEqualENE
                 常量: false
         动作
-            禁用: SetUnitPositionLoc
+            SetUnitPositionLoc
                 函数: GetTrainedUnit
                 函数: GetRectCenter
-                    禁用: 
-            禁用: PanCameraToTimedLocForPlayer
-                预设: Player01
+                    变量: gg_rct_END
+            PanCameraToTimedLocForPlayer
+                预设: Player02
                 函数: GetRectCenter
-                    禁用: 
+                    变量: gg_rct_END
                 常量: 0
         动作
             DoNothing

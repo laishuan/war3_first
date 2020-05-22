@@ -1,6 +1,6 @@
 
 -- local fs = require 'bee.filesystem'
-local root = "D:/code/war3/war3_map/war3_first/" 
+local root = "D:/workspace_war3/war3_first/" 
 package.path = package.path .. [[;]] .. root .. [[scripts/?.lua;]] .. root .. [[tools/?.lua]]
 local config = require 'config'
 require 'core.init'

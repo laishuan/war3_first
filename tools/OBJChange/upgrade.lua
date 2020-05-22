@@ -1,1 +1,1 @@
-return {items={}, category="upgrade"}
+return {items={}, category="upgrade", keys={}}

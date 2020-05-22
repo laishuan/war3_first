@@ -19,6 +19,16 @@ function Stream:flatTable()
     end)
 end
 
+function Stream.safeFileByLine(path)
+    local file = io.open(path)
+    if file then
+        file:close()
+        return Stream.fromFileByLine(path)
+    else
+        return Stream.empty()
+    end
+end
+
 function Stream:v()
     local value = {}
     local count = 0

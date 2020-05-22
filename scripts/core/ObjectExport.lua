@@ -1,7 +1,6 @@
 -- Object2.lua
 local log = require 'jass.log'
 local slk = require 'jass.slk'
-local config = require 'config'
 
 local Exportor = rxClone("ObjectExport", Stream)
 
@@ -14,8 +13,6 @@ function Exportor:addtp(tp)
 end
 
 log.level = 'debug'
---配置为该项目的路径
-log.path = config.pathRead
 
 -- unit  单位
 -- item  物品
@@ -27,36 +24,68 @@ log.path = config.pathRead
 -- misc 杂项
 
 print("start log csv")
-local split = config.split
-local null = "null"
+local split = ExportConfig.split
+local null = ExportConfig.null
 local titleTag = "__title"
+local items = ExportConfig.exportItems
+local keys = Stream.of(unpack(items)):map(function (v)
+	return Stream.of(slk)
+		:pluck(v)
+		:flatTable()
+		:flatMap(function (v, id)
+			return Stream.of(v):flatTable():map(function (v,k)
+				return k
+			end)
+		end)
+		:distinct()
+		:v(), v
+end)
+:reduce(function (state, v, k)
+	state[k] = v
+	return state
+end, {})
+:v()
 
 local Objects = Exportor.of(slk)
 
 local getCategory = function (category)
 	return Objects:pluck(category):flatTable():addtp(category):startWith(titleTag, "none", category)
 end
-
-getCategory("unit")
-:concat(getCategory('ability'))
+Exportor.t(items)
+:map(function (v)
+	return getCategory(v)
+end)
+:reduce(function (state, v)
+	return state:concat(v)
+end)
+:flatten()
 :filter(function (v, id, tp)
-	return (v == titleTag) or string.match(tostring(id), "^%a%d+%a*")
+	return (v == titleTag) or ExportConfig.idRule(v, id, tp)
 end)
 :map(function (v, id, tp)
 	local arr
-	local fullKeys = Stream.of(unpack(config[tp .. "Keys"])):startWith("id"):concat(Stream.of("_tp"))
+	local tpKeys = keys[tp]
+	local fullKeys = Stream.of(unpack(tpKeys)):startWith("id"):concat(Stream.of("_keys"), Stream.of("_tp"))
 	if v == titleTag then
 		arr = fullKeys:v()
 	else
 		arr = fullKeys:map(function (k)
-			local hash = {id=id, _tp=tp}
-			local ret =  hash[k] or v[k] or null
-			if string.len(ret) == 0 then
-				ret = null
+			if k == "_keys" then
+				return Stream.t(v, nil, true):reduce(function (state, v, k)
+					if type(k) == "string" then
+						state[#state+1] = k
+					end
+					return state
+				end, {}):map(function (keys)
+					return  table.concat(keys, "___")
+				end):v()
+			else
+				local hash = {id=id, _tp=tp}
+				return  hash[k] or ExportConfig.transV(v[k])
 			end
-			return ret
 		end):v()
 	end
+	-- dump(arr)
 	return Stream.t(arr):reduce(function (state, v)
 		v = tostring(v):gsub("[%s]", " ")
 		v = tostring(v):gsub(split, " ")
@@ -66,9 +95,10 @@ end)
 			state = state .. v
 		end
 		return state
-	end, split):v()
+	end, split):v(), tp
 end)
-:subscribe(function (str)
+:subscribe(function (str, tp)
+	log.path = ExportConfig.logPath .. tp .. ".csv"
 	log.info(str)
 end)
 
