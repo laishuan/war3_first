@@ -1,1 +1,1 @@
-return {items={}, category="destructable"}
+return {keys={}, items={}, category="destructable"}

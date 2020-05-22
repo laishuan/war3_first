@@ -74,6 +74,41 @@ config.getTemplate = function (category, data, keys)
 	end
 end
 
+config.concatKeyIndex = function (key, index)
+	local realKey
+	if string.find(key, "Buttonpos")
+		or string.find(key, "Missile")
+		or string.find(key, "buttonpos") then
+		realKey = key .. "_" .. index
+	elseif string.match(key, "vert%u$") then
+		if index >= 10 then
+			realKey = key .. index
+		else
+			realKey = key .. "0".. index
+		end
+	else
+		return key .. index
+	end
+	return realKey
+end
+
+config.transKey = function (key)
+	if string.match(key, "Data%u$")
+		or string.match(key, "BuffID$")
+		or string.match(key, "Cast$")
+		or string.match(key, "Cool$")
+		or string.match(key, "targs$")
+		or string.match(key, "EfctID$")
+		or string.match(key, "Dur$")
+		or string.match(key, "HeroDur$")
+		or string.match(key, "Cost$")
+		or string.match(key, "Rng$")
+		or string.match(key, "Area$") then
+			key = key .. "1"
+	end
+	return key
+end
+
 config.dealOBJ = function (data)
 	for id,itemData in pairs(data.items) do
 		local delKeys = {}
@@ -82,7 +117,7 @@ config.dealOBJ = function (data)
 			if type(vv) == "table" and #vv > 0 then
 				-- print("find error:", kk, " id:" .. id .. " category:" .. category)
 				for i=1,#vv do
-					local newKey = kk  .. i
+					local newKey = config.concatKeyIndex(kk, i)
 					addKV[#addKV+1] = {newKey, vv[i]}
 					if data.keys then
 						data.keys[newKey] = data.keys[kk]

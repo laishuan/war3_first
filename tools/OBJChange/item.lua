@@ -1,1 +1,1 @@
-return {items={}, category="item"}
+return {keys={}, items={}, category="item"}

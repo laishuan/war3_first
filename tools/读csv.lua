@@ -10,7 +10,6 @@ local getTemplate = function (tp, args, keys)
 	return args[#args-1]
 end
 
-local CSVParser = rxClone("CSVParser")
 local src = "local slk = require 'slk' \n"
 src = src .. "local obj \n"
 
@@ -23,13 +22,7 @@ Stream.t(items)
 	local objBase = require ("OBJBase." .. v)
 	config.dealOBJ(objBase)
 	local filePath = config.logPath .. v .. ".csv"
-	local file = io.open(filePath)
-	if file then
-		file:close()
-		return CSVParser.fromFileByLine(filePath):skip(1)
-	else
-		return CSVParser.empty()
-	end 
+	return Stream.safeFileByLine(filePath):skip(1)
 end)
 :reduce(function (state, v)
 	return state:concat(v)
