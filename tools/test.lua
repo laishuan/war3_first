@@ -9,3 +9,6 @@ local value = '	{25.0000, "125.0000", 200.0000,  }'
 	local strLine = "vertB = 255"
 	local a, b = string.match(strLine, '([%w_]+)%s*=%s*(.+)')
 	print(a,b)
+
+
+	print(...)
