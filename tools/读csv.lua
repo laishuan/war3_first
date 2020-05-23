@@ -74,17 +74,17 @@ end)
 	end)
 	:map(function (v,i)
 		if tonumber(args[i+1]) then
-			local ret = "\t%s = %s,\n"
+			local ret = "\tobj.%s = %s\n"
 			return string.format(ret, curKeys[i], args[i+1])
 		elseif args[i+1] == "null" then
-			local ret = "\t%s = [[%s]],\n"
+			local ret = "\tobj.%s = [[%s]]\n"
 			return string.format(ret, curKeys[i], "")
 		else
-			local ret = "\t%s = [[%s]],\n"
+			local ret = "\tobj.%s = [[%s]]\n"
 			return string.format(ret, curKeys[i], args[i+1])
 		end
 	end)
-	:startWith("{ \n"):concat(Stream.of("} \n"))
+	:startWith("--{ \n"):concat(Stream.of("--} \n"))
 	:subscribe(function (v)
 		state = state .. v
 	end)
